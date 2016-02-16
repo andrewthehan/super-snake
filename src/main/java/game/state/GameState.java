@@ -2,8 +2,8 @@
 package game.state;
 
 import game.Constants;
-import game.input.*;
 import game.object.Snake;
+import game.system.CollisionSystem;
 import game.system.FoodSystem;
 import game.util.CellBlock;
 import game.util.Direction;

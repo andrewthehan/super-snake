@@ -4,6 +4,7 @@ package game.object;
 import game.attribute.Updatable;
 import game.attribute.Renderable;
 import game.Constants;
+import game.input.*;
 import game.util.CellBlock;
 import game.util.Direction;
 import game.util.UpdateController;
