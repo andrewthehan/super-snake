@@ -1,6 +1,8 @@
 
 package game.state;
 
+import game.input.Key;
+import game.input.KeyManager;
 import game.Player;
 import game.system.CollisionSystem;
 import game.system.FoodSystem;
@@ -44,6 +46,9 @@ public class GameState extends AbstractState{
     player.update(timeElapsed);
     foodSystem.update(timeElapsed);
     collisionSystem.update(timeElapsed);
+    if(KeyManager.isReleased(Key.P)){
+      StateManager.push(new PauseState());
+    }
   }
 
   @Override

@@ -62,7 +62,8 @@ public class SuperSnake{
         public void invoke(long window, int key, int scancode, int action, int mods){
           switch(key){
             case GLFW_KEY_ESCAPE:
-              StateManager.pop();
+              KeyManager.setPressed(Key.ESCAPE, action == GLFW_PRESS);
+							break;
             case GLFW_KEY_UP:
               KeyManager.setPressed(Key.UP, action == GLFW_PRESS);
               break;
@@ -75,6 +76,9 @@ public class SuperSnake{
             case GLFW_KEY_LEFT:
               KeyManager.setPressed(Key.LEFT, action == GLFW_PRESS);
               break;
+						case GLFW_KEY_P:
+							KeyManager.setPressed(Key.P, action == GLFW_PRESS);
+							break;
             default:
               System.err.println("Key (" + key + ") not supported.");
               break;
@@ -109,6 +113,10 @@ public class SuperSnake{
       glfwSwapBuffers(window);
 
       glfwPollEvents();
+
+			if(KeyManager.isReleased(Key.ESCAPE)){
+				StateManager.pop();
+			}
     }
   }
 
