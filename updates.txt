@@ -1,0 +1,68 @@
+*******************************************************************************
+Super Snake - ver. 2.1.0 - (last edited by Peter, June 6, 2012)
+*******************************************************************************
+NOTE: You may set the provided icon to a Super Snake shortcut if you wish.
+
+
+*******************************************************************************
+Updates - ver. 2.1.0
+*******************************************************************************
+- Code optimized (data types and snake body 'setting').
+- Added frame around content.
+- Frame is now moveable.
+- Pseudo icon added.
+- "Demo Snake" show correct displays whenever you hover over the buttons.
+- Changed the image of the snake's head.
+- Updated License Agreement.
+- Images are furthur obfuscated.
+- *.jar, and *.exe are now obfuscated.
+
+
+*******************************************************************************
+Updates - ver. 2.0.0
+*******************************************************************************
+- Code rewritten and optimized.
+- Reformatted title and menu screens.
+- Anti-aliased all images and texts (smoother, less jagged).
+- Images and Audio obfuscated.
+- Updated rules.
+- High scores menu added.
+- Invincibility allows you to go through walls to the other side.
+- Impossible to press the buttons fast enough to collide with yourself.
+- Mute Button added on all screens except during gameplay.
+- Visual display on Play! menu ("Demo Snake" - Classic Snake).
+- Changed music play list:   added - Kokoro e - Road of Major
+			   removed - Shizuku - Sukima Switch (LQ)
+
+
+*******************************************************************************
+Future Updates (in no particular order)
+*******************************************************************************
+- Sounds Effects
+- Visual Animation
+- Music randomized during gameplay
+- Software Icon and Logo
+- Achievements
+- Two high score rankings - Super/Classic Snake
+- Cheats
+- New Backgrounds
+- New Snake Bodies
+- New Items
+- New Music
+- Time Attack Mode
+- Two Player Mode
+- Reset High Scores button
+
+
+*******************************************************************************
+Known Bugs and Errors
+*******************************************************************************
+- Items, rations, and enemies can spawn on top of one another.
+- Edit Rules - Game Mechanics - Enemies - Half Speed description.
+
+
+*******************************************************************************
+Resources
+*******************************************************************************
+- Download Java at http://java.com/en/download/ to open the file.
+
