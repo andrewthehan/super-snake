@@ -1,8 +1,10 @@
 
 package game;
 
-import game.input.*;
-import game.state.*;
+import game.input.Key;
+import game.input.KeyManager;
+import game.state.GameState;
+import game.state.StateManager;
 
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
@@ -42,8 +44,9 @@ public class SuperSnake{
   private void init() {
       glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
 
-      if ( glfwInit() != GLFW_TRUE )
-          throw new IllegalStateException("Unable to initialize GLFW");
+      if(glfwInit() != GLFW_TRUE){
+        throw new IllegalStateException("Unable to initialize GLFW");
+			}
 
       glfwDefaultWindowHints();
       glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);

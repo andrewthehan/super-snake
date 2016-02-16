@@ -1,34 +1,34 @@
 
 package game.state;
 
-import game.Constants;
-import game.object.Snake;
+import game.Player;
 import game.system.CollisionSystem;
 import game.system.FoodSystem;
 import game.util.CellBlock;
-import game.util.Direction;
 
 public class GameState extends AbstractState{
-  private Snake player;
+  private Player player;
   private FoodSystem foodSystem;
   private CollisionSystem collisionSystem;
 
   public GameState(){
-    player = new Snake(10, 10, 5);
+    player = new Player();
     foodSystem = new FoodSystem(3);
     collisionSystem = new CollisionSystem();
   }
 
   public void exit(){
-    player.setLength(0);
+    player.clear();
     foodSystem.clear();
+    collisionSystem.clear();
   }
 
   public void load(){
-    player.setLength(5);
-    player.setLocation(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2);
-    player.setDirection(Direction.UP);
+    player.reset();
     foodSystem.setAmount(3);
+
+    collisionSystem.addBody(player.getSnake());
+    collisionSystem.addBodies(foodSystem.getFoods());
   }
 
   public void pause(){

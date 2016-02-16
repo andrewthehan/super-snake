@@ -1,10 +1,9 @@
 
 package game.object;
 
-import game.attribute.Updatable;
-import game.attribute.Renderable;
+import game.attribute.Body;
+import game.attribute.DynamicBody;
 import game.Constants;
-import game.input.*;
 import game.util.CellBlock;
 import game.util.Direction;
 import game.util.UpdateController;
@@ -16,7 +15,7 @@ import java.util.Collection;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class Snake implements Updatable, Renderable{
+public class Snake implements DynamicBody{
   private UpdateController uController;
   private Deque<CellBlock> body;
   private Direction direction;
@@ -31,17 +30,40 @@ public class Snake implements Updatable, Renderable{
 
   public Snake(Point initialLocation, int length, Direction direction){
     uController = new UpdateController(1000000000 / 10);
-
     body = new ArrayDeque<>();
+    reset(initialLocation, length, direction);
+  }
+
+  public void reset(int x, int y, int length, Direction direction){
+    reset(new Point(x, y), length, direction);
+  }
+
+  public void reset(Point initialLocation, int length, Direction direction){
+    body.clear();
     for(int i = 0; i < length; ++i){
       body.addLast(new CellBlock(initialLocation));
     }
 
     this.direction = direction;
-  }
 
-  public Collection<CellBlock> getBody(){
-    return body;
+    int i = 0;
+    for(CellBlock cb : body){
+      switch(direction){
+        case UP:
+          cb.translate(0, -i);
+          break;
+        case RIGHT:
+          cb.translate(-i, 0);
+          break;
+        case DOWN:
+          cb.translate(0, i);
+          break;
+        case LEFT:
+          cb.translate(i, 0);
+          break;
+      }
+      ++i;
+    }
   }
 
   public Direction getDirection(){
@@ -87,8 +109,12 @@ public class Snake implements Updatable, Renderable{
     body.forEach(cb -> cb.setLocation(location));
   }
 
+  public CellBlock getHead(){
+    return body.getFirst();
+  }
+
   public void step(){
-    CellBlock head = body.getFirst();
+    CellBlock head = getHead();
     CellBlock tail = body.removeLast();
 
     tail.setLocation(head.getLocation());
@@ -110,19 +136,37 @@ public class Snake implements Updatable, Renderable{
   }
 
   @Override
+  public Collection<CellBlock> getBody(){
+    return body;
+  }
+
+  @Override
+  public void collide(Body body){
+    if(body instanceof Food){
+      increment();
+    }
+    else if(body instanceof Snake){
+      System.out.println("DEAD");
+    }
+  }
+
+  @Override
+  public void checkCollision(Body body){
+    if(body instanceof Snake && this == (Snake) body){
+      CellBlock head = getHead();
+      for(CellBlock cb : getBody()){
+        if(head.intersects(cb) && !head.equals(cb)){
+          collide(body);
+        }
+      }
+    }
+    else{
+      DynamicBody.super.checkCollision(body);
+    }
+  }
+
+  @Override
   public void update(long timeElapsed){
-    if(KeyManager.isPressed(Key.UP) && getDirection() != Direction.DOWN){
-      setDirection(Direction.UP);
-    }
-    else if(KeyManager.isPressed(Key.RIGHT) && getDirection() != Direction.LEFT){
-      setDirection(Direction.RIGHT);
-    }
-    else if(KeyManager.isPressed(Key.DOWN) && getDirection() != Direction.UP){
-      setDirection(Direction.DOWN);
-    }
-    else if(KeyManager.isPressed(Key.LEFT) && getDirection() != Direction.RIGHT){
-      setDirection(Direction.LEFT);
-    }
     if(uController.shouldUpdate(timeElapsed)){
       step();
     }
@@ -130,14 +174,9 @@ public class Snake implements Updatable, Renderable{
 
   @Override
   public void render(){
+    glColor3f(0, 0, 0);
   	glBegin(GL_QUADS);
     body.descendingIterator().forEachRemaining(cb -> {
-      if(cb == body.getFirst()){
-        glColor3f(0, 1, 0);
-      }
-      else{
-        glColor3f(0, 0, 0);
-      }
 			glVertex2f(cb.getX() * Constants.CELL_BLOCK_SIZE, cb.getY() * Constants.CELL_BLOCK_SIZE);
 			glVertex2f((cb.getX() + 1) * Constants.CELL_BLOCK_SIZE, cb.getY() * Constants.CELL_BLOCK_SIZE);
 			glVertex2f((cb.getX() + 1) * Constants.CELL_BLOCK_SIZE, (cb.getY() + 1) * Constants.CELL_BLOCK_SIZE);

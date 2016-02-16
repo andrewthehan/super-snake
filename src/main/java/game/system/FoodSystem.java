@@ -9,7 +9,7 @@ import game.util.RNG;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +25,10 @@ public class FoodSystem implements Updatable, Renderable{
     }
   }
 
+  public Collection<Food> getFoods(){
+    return foods;
+  }
+
   public void clear(){
     setAmount(0);
   }
@@ -37,9 +41,8 @@ public class FoodSystem implements Updatable, Renderable{
       }
     }
     else{
-      Iterator<Food> it = foods.iterator();
       for(int i = 0; i > difference; --i){
-        foods.remove(it.next());
+        foods.remove(foods.iterator().next());
       }
     }
     this.amount = amount;
@@ -56,14 +59,6 @@ public class FoodSystem implements Updatable, Renderable{
 
   @Override
   public void render(){
-    glColor3f(1f, 0, 0);
-  	glBegin(GL_QUADS);
-    foods.forEach(f -> {
-  		glVertex2f(f.getX() * Constants.CELL_BLOCK_SIZE, f.getY() * Constants.CELL_BLOCK_SIZE);
-  		glVertex2f((f.getX() + 1) * Constants.CELL_BLOCK_SIZE, f.getY() * Constants.CELL_BLOCK_SIZE);
-  		glVertex2f((f.getX() + 1) * Constants.CELL_BLOCK_SIZE, (f.getY() + 1) * Constants.CELL_BLOCK_SIZE);
-  		glVertex2f(f.getX() * Constants.CELL_BLOCK_SIZE, (f.getY() + 1) * Constants.CELL_BLOCK_SIZE);
-    });
-    glEnd();
+    foods.forEach(Food::render);
   }
 }
