@@ -3,13 +3,13 @@ package game.object;
 
 import game.attribute.Body;
 import game.attribute.DynamicBody;
-import game.Constants;
+import game.graphic.CellBlockRenderer;
+import game.object.item.Skin;
 import game.util.CellBlock;
 import game.util.Direction;
 import game.util.UpdateController;
 
-import static org.lwjgl.opengl.GL11.*;
-
+import java.awt.Color;
 import java.awt.Point;
 import java.util.Collection;
 import java.util.ArrayDeque;
@@ -19,6 +19,8 @@ public class Snake implements DynamicBody{
   private UpdateController uController;
   private Deque<CellBlock> body;
   private Direction direction;
+
+  private Skin.Snake skin;
 
   public Snake(int x, int y, int length){
     this(new Point(x, y), length, Direction.UP);
@@ -32,6 +34,12 @@ public class Snake implements DynamicBody{
     uController = new UpdateController(1000000000 / 10);
     body = new ArrayDeque<>();
     reset(initialLocation, length, direction);
+
+    skin = Skin.SNAKE_DEFAULT;
+  }
+
+  public void setSkin(Skin.Snake skin){
+    this.skin = skin;
   }
 
   public void reset(int x, int y, int length, Direction direction){
@@ -113,6 +121,10 @@ public class Snake implements DynamicBody{
     return body.getFirst();
   }
 
+  public CellBlock getTail(){
+    return body.getLast();
+  }
+
   public void step(){
     CellBlock head = getHead();
     CellBlock tail = body.removeLast();
@@ -145,8 +157,11 @@ public class Snake implements DynamicBody{
     if(body instanceof Food){
       increment();
     }
+    else if(body instanceof Wall){
+      System.out.println("WALL DEAD");
+    }
     else if(body instanceof Snake){
-      System.out.println("DEAD");
+      System.out.println("SNAKE DEAD");
     }
   }
 
@@ -174,14 +189,19 @@ public class Snake implements DynamicBody{
 
   @Override
   public void render(){
-    glColor3f(0, 0, 0);
-  	glBegin(GL_QUADS);
+    CellBlock head = getHead();
+    CellBlock tail = getTail();
+
     body.descendingIterator().forEachRemaining(cb -> {
-			glVertex2f(cb.getX() * Constants.CELL_BLOCK_SIZE, cb.getY() * Constants.CELL_BLOCK_SIZE);
-			glVertex2f((cb.getX() + 1) * Constants.CELL_BLOCK_SIZE, cb.getY() * Constants.CELL_BLOCK_SIZE);
-			glVertex2f((cb.getX() + 1) * Constants.CELL_BLOCK_SIZE, (cb.getY() + 1) * Constants.CELL_BLOCK_SIZE);
-			glVertex2f(cb.getX() * Constants.CELL_BLOCK_SIZE, (cb.getY() + 1) * Constants.CELL_BLOCK_SIZE);
+      if(cb == head){
+        CellBlockRenderer.render(cb, skin.getHeadColor());
+      }
+      else if(cb == tail){
+        CellBlockRenderer.render(cb, skin.getTailColor());
+      }
+      else{
+        CellBlockRenderer.render(cb, skin.getBodyColor());
+      }
     });
-    glEnd();
   }
 }

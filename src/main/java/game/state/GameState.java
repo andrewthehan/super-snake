@@ -1,35 +1,53 @@
 
 package game.state;
 
+import game.Constants;
 import game.input.Key;
 import game.input.KeyManager;
+import game.object.item.Skin;
+import game.object.Wall;
 import game.Player;
 import game.system.CollisionSystem;
 import game.system.FoodSystem;
 import game.util.CellBlock;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class GameState extends AbstractState{
   private Player player;
+  private Set<Wall> walls;
+
   private FoodSystem foodSystem;
   private CollisionSystem collisionSystem;
 
   public GameState(){
     player = new Player();
-    foodSystem = new FoodSystem(3);
+    walls = new HashSet<>();
+
+    foodSystem = new FoodSystem();
     collisionSystem = new CollisionSystem();
   }
 
   public void exit(){
     player.clear();
+    walls.clear();
+
     foodSystem.clear();
     collisionSystem.clear();
   }
 
   public void load(){
     player.reset();
-    foodSystem.setAmount(3);
+    player.getSnake().setSkin(Skin.SNAKE_RAINBOW);
+    walls.add(new Wall(0, Constants.GRID_WIDTH, 0, 1));
+    walls.add(new Wall(0, Constants.GRID_WIDTH, Constants.GRID_HEIGHT - 1, Constants.GRID_HEIGHT));
+    walls.add(new Wall(0, 1, 0, Constants.GRID_HEIGHT));
+    walls.add(new Wall(Constants.GRID_WIDTH - 1, Constants.GRID_WIDTH, 0, Constants.GRID_HEIGHT));
 
+    foodSystem.setAmount(3);
     collisionSystem.addBody(player.getSnake());
+    walls.forEach(collisionSystem::addBody);
     collisionSystem.addBodies(foodSystem.getFoods());
   }
 
@@ -54,6 +72,7 @@ public class GameState extends AbstractState{
   @Override
   public void render(){
     player.render();
+    walls.forEach(Wall::render);
     foodSystem.render();
     collisionSystem.render();
   }

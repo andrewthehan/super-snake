@@ -17,12 +17,9 @@ public class FoodSystem implements Updatable, Renderable{
   private int amount;
   private Set<Food> foods;
 
-  public FoodSystem(int amount){
-    this.amount = amount;
+  public FoodSystem(){
+    amount = 0;
     foods = new HashSet<>();
-    for(int i = 0; i < amount; ++i){
-      foods.add(new Food(RNG.location()));
-    }
   }
 
   public Collection<Food> getFoods(){
@@ -40,7 +37,7 @@ public class FoodSystem implements Updatable, Renderable{
         foods.add(new Food(RNG.location()));
       }
     }
-    else{
+    else if(difference < 0){
       for(int i = 0; i > difference; --i){
         foods.remove(foods.iterator().next());
       }

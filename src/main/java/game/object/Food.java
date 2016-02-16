@@ -3,12 +3,11 @@ package game.object;
 
 import game.attribute.Body;
 import game.attribute.StaticBody;
-import game.Constants;
+import game.graphic.CellBlockRenderer;
 import game.util.CellBlock;
 import game.util.RNG;
 
-import static org.lwjgl.opengl.GL11.*;
-
+import java.awt.Color;
 import java.awt.Point;
 import java.util.Collection;
 import java.util.HashSet;
@@ -72,12 +71,6 @@ public class Food implements StaticBody{
 
   @Override
   public void render(){
-    glColor3f(1f, 0, 0);
-  	glBegin(GL_QUADS);
-		glVertex2f(getX() * Constants.CELL_BLOCK_SIZE, getY() * Constants.CELL_BLOCK_SIZE);
-		glVertex2f((getX() + 1) * Constants.CELL_BLOCK_SIZE, getY() * Constants.CELL_BLOCK_SIZE);
-		glVertex2f((getX() + 1) * Constants.CELL_BLOCK_SIZE, (getY() + 1) * Constants.CELL_BLOCK_SIZE);
-		glVertex2f(getX() * Constants.CELL_BLOCK_SIZE, (getY() + 1) * Constants.CELL_BLOCK_SIZE);
-    glEnd();
+    CellBlockRenderer.render(body, new Color(1f, 0, 0));
   }
 }
