@@ -1,9 +1,11 @@
 
 package game.object;
 
-import game.attribute.Body;
-import game.attribute.StaticBody;
 import game.graphic.CellBlockRenderer;
+import game.object.attribute.Body;
+import game.object.attribute.Skinnable;
+import game.object.attribute.StaticBody;
+import game.object.decoration.Skin;
 import game.util.CellBlock;
 import game.util.RNG;
 
@@ -12,17 +14,19 @@ import java.awt.Point;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class Food implements StaticBody{
+public class Food implements StaticBody, Skinnable{
   private CellBlock body;
   private boolean isConsumed;
+  private Skin skin;
 
   public Food(int x, int y){
     body = new CellBlock(x, y);
     isConsumed = false;
+    skin = Skin.FOOD_DEFAULT;
   }
 
   public Food(Point location){
-    body = new CellBlock(location);
+    this((int) location.getX(), (int) location.getY());
   }
 
   public int getX(){
@@ -71,6 +75,11 @@ public class Food implements StaticBody{
 
   @Override
   public void render(){
-    CellBlockRenderer.render(body, new Color(1f, 0, 0));
+    CellBlockRenderer.render(body, skin.getColor());
+  }
+
+  @Override
+  public void setSkin(Skin skin){
+    this.skin = skin;
   }
 }

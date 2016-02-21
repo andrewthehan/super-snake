@@ -1,9 +1,11 @@
 
 package game.object;
 
-import game.attribute.Body;
-import game.attribute.StaticBody;
 import game.graphic.CellBlockRenderer;
+import game.object.attribute.Body;
+import game.object.attribute.Skinnable;
+import game.object.attribute.StaticBody;
+import game.object.decoration.Skin;
 import game.util.CellBlock;
 
 import java.awt.Color;
@@ -11,9 +13,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Wall implements StaticBody{
-  private Color color = new Color(0f, .5f, .5f);
+public class Wall implements StaticBody, Skinnable{
   private Set<CellBlock> body;
+  private Skin skin;
 
   public Wall(int x0, int x1, int y0, int y1){
     body = new HashSet<>();
@@ -22,6 +24,8 @@ public class Wall implements StaticBody{
         body.add(new CellBlock(i, j));
       }
     }
+
+    skin = Skin.WALL_DEFAULT;
   }
 
   @Override
@@ -35,6 +39,11 @@ public class Wall implements StaticBody{
 
   @Override
   public void render(){
-    CellBlockRenderer.render(body, color);
+    CellBlockRenderer.render(body, skin.getColor());
+  }
+
+  @Override
+  public void setSkin(Skin skin){
+    this.skin = skin;
   }
 }

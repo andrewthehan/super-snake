@@ -1,10 +1,12 @@
 
 package game.object;
 
-import game.attribute.Body;
-import game.attribute.DynamicBody;
 import game.graphic.CellBlockRenderer;
-import game.object.item.Skin;
+import game.object.attribute.Body;
+import game.object.attribute.DynamicBody;
+import game.object.attribute.Skinnable;
+import game.object.decoration.Skin;
+import game.object.exception.InvalidSkinException;
 import game.util.CellBlock;
 import game.util.Direction;
 import game.util.UpdateController;
@@ -15,12 +17,11 @@ import java.util.Collection;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class Snake implements DynamicBody{
+public class Snake implements DynamicBody, Skinnable{
   private UpdateController uController;
   private Deque<CellBlock> body;
   private Direction direction;
-
-  private Skin.Snake skin;
+  private Skin.SnakeSkin skin;
 
   public Snake(int x, int y, int length){
     this(new Point(x, y), length, Direction.UP);
@@ -36,10 +37,6 @@ public class Snake implements DynamicBody{
     reset(initialLocation, length, direction);
 
     skin = Skin.SNAKE_DEFAULT;
-  }
-
-  public void setSkin(Skin.Snake skin){
-    this.skin = skin;
   }
 
   public void reset(int x, int y, int length, Direction direction){
@@ -192,16 +189,22 @@ public class Snake implements DynamicBody{
     CellBlock head = getHead();
     CellBlock tail = getTail();
 
-    body.descendingIterator().forEachRemaining(cb -> {
-      if(cb == head){
-        CellBlockRenderer.render(cb, skin.getHeadColor());
-      }
-      else if(cb == tail){
-        CellBlockRenderer.render(cb, skin.getTailColor());
-      }
-      else{
-        CellBlockRenderer.render(cb, skin.getBodyColor());
-      }
-    });
+    // if any color is an iterative color, calling #getXColor resets color index to 0
+    Color headColor = skin.getHeadColor();
+    Color tailColor = skin.getTailColor();
+    Color bodyColor = skin.getBodyColor();
+
+    // descendingIterator so blocks closer to head are painted on top of blocks farther from head
+    body.forEach(cb ->
+        CellBlockRenderer.render(cb, (cb == head) ? headColor : (cb == tail) ? tailColor : bodyColor)
+    );
+  }
+
+  @Override
+  public void setSkin(Skin skin){
+    if(!(skin instanceof Skin.SnakeSkin)){
+      new InvalidSkinException();
+    }
+    this.skin = (Skin.SnakeSkin) skin;
   }
 }

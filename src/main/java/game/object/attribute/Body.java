@@ -1,5 +1,5 @@
 
-package game.attribute;
+package game.object.attribute;
 
 import game.attribute.Renderable;
 import game.util.CellBlock;

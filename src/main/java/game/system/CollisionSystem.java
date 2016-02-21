@@ -1,11 +1,11 @@
 
 package game.system;
 
-import game.attribute.Body;
-import game.attribute.DynamicBody;
 import game.attribute.Renderable;
-import game.attribute.StaticBody;
 import game.attribute.Updatable;
+import game.object.attribute.Body;
+import game.object.attribute.DynamicBody;
+import game.object.attribute.StaticBody;
 
 import java.util.Collection;
 import java.util.HashSet;

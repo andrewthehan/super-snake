@@ -5,6 +5,7 @@ import game.attribute.Renderable;
 import game.attribute.Updatable;
 import game.input.Key;
 import game.input.KeyManager;
+import game.object.decoration.Skin;
 import game.object.Snake;
 import game.util.Direction;
 
@@ -25,6 +26,7 @@ public class Player implements Updatable, Renderable{
 
   public void reset(){
     snake.reset(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2, 5, Direction.UP);
+    snake.setSkin(Skin.SNAKE_RAINBOW);
   }
 
   @Override

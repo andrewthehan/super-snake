@@ -4,7 +4,7 @@ package game.state;
 import game.Constants;
 import game.input.Key;
 import game.input.KeyManager;
-import game.object.item.Skin;
+import game.object.decoration.Skin;
 import game.object.Wall;
 import game.Player;
 import game.system.CollisionSystem;
@@ -39,7 +39,6 @@ public class GameState extends AbstractState{
 
   public void load(){
     player.reset();
-    player.getSnake().setSkin(Skin.SNAKE_RAINBOW);
     walls.add(new Wall(0, Constants.GRID_WIDTH, 0, 1));
     walls.add(new Wall(0, Constants.GRID_WIDTH, Constants.GRID_HEIGHT - 1, Constants.GRID_HEIGHT));
     walls.add(new Wall(0, 1, 0, Constants.GRID_HEIGHT));
