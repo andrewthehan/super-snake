@@ -3,7 +3,9 @@ package game;
 
 import game.input.Key;
 import game.input.KeyManager;
-import game.state.GameState;
+import game.input.MouseButton;
+import game.input.MouseManager;
+import game.state.MenuState;
 import game.state.StateManager;
 
 import org.lwjgl.*;
@@ -18,6 +20,8 @@ public class SuperSnake{
 
   private GLFWErrorCallback errorCallback;
   private GLFWKeyCallback keyCallback;
+	private GLFWCursorPosCallback posCallback;
+	private GLFWMouseButtonCallback mouseCallback;
 
   private long window;
 
@@ -31,9 +35,6 @@ public class SuperSnake{
     try{
       init();
       loop();
-
-      glfwDestroyWindow(window);
-      keyCallback.release();
     }
     finally{
       glfwTerminate();
@@ -57,34 +58,52 @@ public class SuperSnake{
         throw new RuntimeException("Failed to create the GLFW window");
       }
 
-      glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback(){
-        @Override
-        public void invoke(long window, int key, int scancode, int action, int mods){
-          switch(key){
-            case GLFW_KEY_ESCAPE:
-              KeyManager.setPressed(Key.ESCAPE, action == GLFW_PRESS);
-							break;
-            case GLFW_KEY_UP:
-              KeyManager.setPressed(Key.UP, action == GLFW_PRESS);
-              break;
-            case GLFW_KEY_RIGHT:
-              KeyManager.setPressed(Key.RIGHT, action == GLFW_PRESS);
-              break;
-            case GLFW_KEY_DOWN:
-              KeyManager.setPressed(Key.DOWN, action == GLFW_PRESS);
-              break;
-            case GLFW_KEY_LEFT:
-              KeyManager.setPressed(Key.LEFT, action == GLFW_PRESS);
-              break;
-						case GLFW_KEY_P:
-							KeyManager.setPressed(Key.P, action == GLFW_PRESS);
-							break;
-            default:
-              System.err.println("Key (" + key + ") not supported.");
-              break;
-          }
+      glfwSetKeyCallback(window, keyCallback = GLFWKeyCallback.create((window, key, scancode, action, mods) -> {
+        switch(key){
+          case GLFW_KEY_ESCAPE:
+            KeyManager.setPressed(Key.ESCAPE, action == GLFW_PRESS);
+						break;
+          case GLFW_KEY_UP:
+            KeyManager.setPressed(Key.UP, action == GLFW_PRESS);
+            break;
+          case GLFW_KEY_RIGHT:
+            KeyManager.setPressed(Key.RIGHT, action == GLFW_PRESS);
+            break;
+          case GLFW_KEY_DOWN:
+            KeyManager.setPressed(Key.DOWN, action == GLFW_PRESS);
+            break;
+          case GLFW_KEY_LEFT:
+            KeyManager.setPressed(Key.LEFT, action == GLFW_PRESS);
+            break;
+					case GLFW_KEY_P:
+						KeyManager.setPressed(Key.P, action == GLFW_PRESS);
+						break;
+          default:
+            System.err.println("Key (" + key + ") not supported.");
+            break;
         }
-      });
+      }));
+
+			glfwSetCursorPosCallback(window, posCallback = GLFWCursorPosCallback.create((window, x, y) -> {
+				MouseManager.setLocation((int) x, (int) (Constants.WORLD_HEIGHT - y));
+			}));
+
+			glfwSetMouseButtonCallback(window, mouseCallback = GLFWMouseButtonCallback.create((window, button, action, mods) -> {
+				switch(button){
+					case GLFW_MOUSE_BUTTON_1:
+						MouseManager.setPressed(MouseButton.LEFT, action == GLFW_PRESS);
+						break;
+					case GLFW_MOUSE_BUTTON_2:
+						MouseManager.setPressed(MouseButton.RIGHT, action == GLFW_PRESS);
+						break;
+					case GLFW_MOUSE_BUTTON_3:
+						MouseManager.setPressed(MouseButton.MIDDLE, action == GLFW_PRESS);
+						break;
+					default:
+            System.err.println("Mouse button (" + button + ") not supported.");
+            break;
+				}
+			}));
 
       GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
       glfwSetWindowPos(window, (vidmode.width() - Constants.WORLD_WIDTH) / 2, (vidmode.height() - Constants.WORLD_HEIGHT) / 2);
@@ -101,7 +120,7 @@ public class SuperSnake{
     glOrtho(0, Constants.WORLD_WIDTH, 0, Constants.WORLD_HEIGHT, 0, 1);
     glViewport(0, 0, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
 
-    StateManager.push(new GameState());
+    StateManager.push(new MenuState());
 
     lastTime = getTime();
     while(glfwWindowShouldClose(window) == GLFW_FALSE && !StateManager.isEmpty()){
@@ -118,6 +137,9 @@ public class SuperSnake{
 				StateManager.pop();
 			}
     }
+
+		glfwDestroyWindow(window);
+		keyCallback.release();
   }
 
 	public long getTime(){

@@ -29,6 +29,7 @@ public class GameState extends AbstractState{
     collisionSystem = new CollisionSystem();
   }
 
+  @Override
   public void exit(){
     player.clear();
     walls.clear();
@@ -37,6 +38,7 @@ public class GameState extends AbstractState{
     collisionSystem.clear();
   }
 
+  @Override
   public void load(){
     player.reset();
     walls.add(new Wall(0, Constants.GRID_WIDTH, 0, 1));
@@ -50,10 +52,13 @@ public class GameState extends AbstractState{
     collisionSystem.addBodies(foodSystem.getFoods());
   }
 
+  @Override
   public void pause(){
 
   }
 
+
+  @Override
   public void resume(){
 
   }
