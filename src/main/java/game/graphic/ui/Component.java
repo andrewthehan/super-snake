@@ -10,7 +10,6 @@ public abstract class Component implements Renderable{
   private int x, y;
   private int width, height;
   private Assets.Image image;
-  private int imageWidth, imageHeight, imageComp;
 
   public Component(int x, int y, int width, int height, Assets.Image image){
     setLocation(x, y);

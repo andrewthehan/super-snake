@@ -7,8 +7,19 @@ import game.graphic.ui.Button;
 import game.state.GameState;
 import game.state.StateManager;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class MenuState extends AbstractState{
-  private Button button;
+  private Set<Button> buttons;
+  private Button play;
+
+  public MenuState(){
+    buttons = new HashSet<>();
+    play = new Button((Constants.WORLD_WIDTH - 222) / 2, (Constants.WORLD_HEIGHT - 76) / 2, 222, 76, Assets.BUTTON_PLAY);
+    play.setAction(() -> StateManager.push(new GameState()));
+    buttons.add(play);
+  }
 
   @Override
   public void exit(){
@@ -16,8 +27,6 @@ public class MenuState extends AbstractState{
 
   @Override
   public void load(){
-    button = new Button((Constants.WORLD_WIDTH - 222) / 2, (Constants.WORLD_HEIGHT - 76) / 2, 222, 76, Assets.BUTTON, Assets.CLICKED_BUTTON);
-    button.setAction(() -> StateManager.push(new GameState()));
   }
 
   @Override
@@ -30,11 +39,11 @@ public class MenuState extends AbstractState{
 
   @Override
   public void update(long timeElapsed){
-    button.update(timeElapsed);
+    buttons.forEach(b -> b.update(timeElapsed));
   }
 
   @Override
   public void render(){
-    button.render();
+    buttons.forEach(b -> b.render());
   }
 }

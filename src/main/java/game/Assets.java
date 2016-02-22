@@ -10,8 +10,7 @@ import java.nio.IntBuffer;
 
 public class Assets{
   public static final String RESOURCES = "res/";
-  public static final Image BUTTON = new Image(RESOURCES + "button.png");
-  public static final Image CLICKED_BUTTON = new Image(RESOURCES + "clicked_button.png");
+  public static final Image BUTTON_PLAY = new Image(RESOURCES + "button_play.png");
 
   public static class Image{
     private static final IntBuffer W = BufferUtils.createIntBuffer(1);
