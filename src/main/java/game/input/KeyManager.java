@@ -1,8 +1,14 @@
 
 package game.input;
 
+import java.util.Arrays;
+
 public final class KeyManager{
   private static KeyState[] KEY_STATES = new KeyState[Key.NUMBER_OF_KEYS];
+
+  static{
+    Arrays.fill(KEY_STATES, KeyState.IDLE);
+  }
 
   public static void setPressed(int key, boolean isPressed){
     KEY_STATES[key] = isPressed ? KeyState.PRESSED : KeyState.RELEASED;

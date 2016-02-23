@@ -12,10 +12,12 @@ import static org.lwjgl.opengl.GL11.*;
 public class Button extends Component implements Updatable{
   private ButtonState state;
   private Actionable action;
+  private boolean pressedOutside;
 
   public Button(int x, int y, int width, int height, Assets.Image image){
     super(x, y, width, height, image);
     state = ButtonState.IDLE;
+    pressedOutside = false;
   }
 
   public void setAction(Actionable action){
@@ -83,31 +85,35 @@ public class Button extends Component implements Updatable{
 
   @Override
   public void update(long timeElapsed){
-    if(state == ButtonState.CLICKED){
-      if(MouseManager.isReleased(MouseButton.LEFT)){
-        if(contains(MouseManager.getMouseX(), MouseManager.getMouseY())){
-          state = ButtonState.HOVERED;//setImage(hoverImage);
-          action.act();
+    if(MouseManager.isReleased(MouseButton.LEFT)){
+      if(state == ButtonState.CLICKED){
+        state = ButtonState.HOVERED;
+        action.act();
+      }
+      else{
+        pressedOutside = false;
+      }
+    }
+    else if(MouseManager.isPressed(MouseButton.LEFT)){
+      if(state == ButtonState.HOVERED){
+        state = ButtonState.CLICKED;
+      }
+      else{
+        pressedOutside = true;
+      }
+    }
+    else if(contains(MouseManager.getMouseX(), MouseManager.getMouseY())){
+      if(!pressedOutside){
+        if(state == ButtonState.IDLE){
+          state = ButtonState.HOVERED;
         }
-        else{
-          state = ButtonState.IDLE;//setImage(image);
+        else if(state != ButtonState.CLICKED && MouseManager.isHeld(MouseButton.LEFT)){
+          state = ButtonState.CLICKED;
         }
       }
     }
-    else{
-      if(MouseManager.isPressed(MouseButton.LEFT)){
-        if(contains(MouseManager.getMouseX(), MouseManager.getMouseY())){
-          state = ButtonState.CLICKED;//setImage(clickedImage);
-        }
-      }
-      else{
-        if(contains(MouseManager.getMouseX(), MouseManager.getMouseY())){
-          state = ButtonState.HOVERED;//setImage(hoverImage);
-        }
-        else{
-          state = ButtonState.IDLE;//setImage(image);
-        }
-      }
+    else if(state != ButtonState.IDLE){
+      state = ButtonState.IDLE;
     }
   }
 }

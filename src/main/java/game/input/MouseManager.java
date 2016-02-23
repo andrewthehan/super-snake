@@ -1,9 +1,15 @@
 
 package game.input;
 
+import java.util.Arrays;
+
 public final class MouseManager{
   private static MouseButtonState[] MOUSE_BUTTON_STATES = new MouseButtonState[MouseButton.NUMBER_OF_MOUSE_BUTTONS];
   private static int x, y;
+
+  static{
+    Arrays.fill(MOUSE_BUTTON_STATES, MouseButtonState.IDLE);
+  }
 
   public static void setPressed(int mouseButton, boolean isPressed){
     MOUSE_BUTTON_STATES[mouseButton] = isPressed ? MouseButtonState.PRESSED : MouseButtonState.RELEASED;
