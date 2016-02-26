@@ -2,7 +2,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'game.SuperSnake'
+mainClassName = 'supersnake.SuperSnake'
 version = '1.0'
 
 jar {
