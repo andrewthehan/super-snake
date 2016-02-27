@@ -33,11 +33,6 @@ public class CollisionSystem implements Updatable, Renderable{
     bodies.forEach(this::addBody);
   }
 
-  public void clear(){
-    staticBodies.clear();
-    dynamicBodies.clear();
-  }
-
   @Override
   public void update(double timeElapsed){
     dynamicBodies.forEach(b -> {

@@ -12,18 +12,12 @@ import supersnake.util.Time;
 
 public class EnemySnake extends Enemy{
   private Snake snake;
-  private Body target;
 
-  public EnemySnake(){
-    snake = new Snake(20, 10, 7);
+  public EnemySnake(Body target, int x, int y, int length){
+    super(new Snake(x, y, length), target);
+    snake = (Snake) object;
     snake.setSkin(Skin.SNAKE_ENEMY);
     snake.setUpdateDelay(Time.SECOND / 7.0);
-
-    setBody(snake);
-  }
-
-  public void setTarget(Body target){
-    this.target = target;
   }
 
   public void chase(){
@@ -56,19 +50,6 @@ public class EnemySnake extends Enemy{
     }
 
     snake.setNextDirection(nextDirection);
-  }
-
-  public Snake getSnake(){
-    return snake;
-  }
-
-  public void clear(){
-    snake.setLength(0);
-  }
-
-  public void reset(){
-    snake.reset(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2, 5, Direction.UP);
-    snake.setSkin(Skin.SNAKE_ENEMY);
   }
 
   @Override

@@ -27,6 +27,10 @@ public class Snake implements DynamicBody, Skinnable{
     this(new Point(x, y), length, Direction.UP);
   }
 
+  public Snake(int x, int y, int length, Direction direction){
+    this(new Point(x, y), length, direction);
+  }
+
   public Snake(Point initialLocation, int length){
     this(initialLocation, length, Direction.UP);
   }
@@ -34,21 +38,16 @@ public class Snake implements DynamicBody, Skinnable{
   public Snake(Point initialLocation, int length, Direction direction){
     uController = new UpdateController();
     body = new ArrayDeque<>();
-    reset(initialLocation, length, direction);
+    init(initialLocation, length, direction);
 
     skin = Skin.SNAKE_DEFAULT;
   }
 
-  public void setUpdateDelay(double updateDelay){
-    uController.setUpdateDelay(updateDelay);
+  private void init(int x, int y, int length, Direction direction){
+    init(new Point(x, y), length, direction);
   }
 
-  public void reset(int x, int y, int length, Direction direction){
-    reset(new Point(x, y), length, direction);
-  }
-
-  public void reset(Point initialLocation, int length, Direction direction){
-    body.clear();
+  private void init(Point initialLocation, int length, Direction direction){
     for(int i = 0; i < length; ++i){
       body.addLast(new CellBlock(initialLocation));
     }
@@ -74,6 +73,10 @@ public class Snake implements DynamicBody, Skinnable{
       }
       ++i;
     }
+  }
+
+  public void setUpdateDelay(double updateDelay){
+    uController.setUpdateDelay(updateDelay);
   }
 
   public Direction getDirection(){

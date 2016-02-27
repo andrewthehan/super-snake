@@ -6,13 +6,27 @@ import supersnake.attribute.Updatable;
 import supersnake.object.attribute.Body;
 
 public abstract class Enemy implements Updatable, Renderable{
-  private Body body;
+  protected Body object;
+  protected Body target;
 
-  public void setBody(Body body){
-    this.body = body;
+  public Enemy(Body object, Body target){
+    this.object = object;
+    this.target = target;
   }
 
-  public Body getBody(){
-    return body;
+  public void setObject(Body object){
+    this.object = object;
+  }
+
+  public Body getObject(){
+    return object;
+  }
+
+  public void setTarget(Body target){
+    this.target = target;
+  }
+
+  public Body getTarget(){
+    return target;
   }
 }

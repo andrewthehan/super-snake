@@ -49,12 +49,12 @@ public class Food implements StaticBody, Skinnable{
     isConsumed = true;
   }
 
-  public void reset(int x, int y){
+  public void move(int x, int y){
     body.setLocation(x, y);
     isConsumed = false;
   }
 
-  public void reset(Point location){
+  public void move(Point location){
     body.setLocation(location);
     isConsumed = false;
   }
@@ -69,7 +69,7 @@ public class Food implements StaticBody, Skinnable{
   @Override
   public void collide(Body b){
     if(b instanceof Snake){
-      reset(RNG.location());
+      isConsumed = true;
     }
   }
 

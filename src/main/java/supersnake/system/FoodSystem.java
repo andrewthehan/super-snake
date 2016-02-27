@@ -26,10 +26,6 @@ public class FoodSystem implements Updatable, Renderable{
     return foods;
   }
 
-  public void clear(){
-    setAmount(0);
-  }
-
   public void setAmount(int amount){
     int difference = amount - this.amount;
     if(difference > 0){
@@ -49,7 +45,7 @@ public class FoodSystem implements Updatable, Renderable{
   public void update(double timeElapsed){
     foods.forEach(f -> {
       if(f.isConsumed()){
-        f.reset(RNG.location());
+        f.move(RNG.location());
       }
     });
   }

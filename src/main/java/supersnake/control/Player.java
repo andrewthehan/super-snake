@@ -15,21 +15,13 @@ public class Player implements Updatable, Renderable{
   private Snake snake;
 
   public Player(){
-    snake = new Snake(10, 10, 5);
+    snake = new Snake(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2, 5, Direction.UP);
     snake.setSkin(Skin.SNAKE_RAINBOW);
     snake.setUpdateDelay(Time.SECOND / 10.0);
   }
 
   public Snake getSnake(){
     return snake;
-  }
-
-  public void clear(){
-    snake.setLength(0);
-  }
-
-  public void reset(){
-    snake.reset(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2, 5, Direction.UP);
   }
 
   @Override

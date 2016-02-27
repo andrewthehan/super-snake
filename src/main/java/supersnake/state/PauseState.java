@@ -14,19 +14,16 @@ public class PauseState extends AbstractState{
   private Set<Button> buttons;
   private Button back;
 
-  public PauseState(){
-    buttons = new HashSet<>();
-    back = new Button((Constants.SCREEN_WIDTH - 72) / 2, (Constants.SCREEN_HEIGHT - 45) / 2, 72, 45, Assets.BUTTON_BACK);
-    back.setAction(() -> StateManager.pop());
-    buttons.add(back);
-  }
-
   @Override
   public void exit(){
   }
 
   @Override
   public void load(){
+    buttons = new HashSet<>();
+    back = new Button((Constants.SCREEN_WIDTH - 72) / 2, (Constants.SCREEN_HEIGHT - 45) / 2, 72, 45, Assets.BUTTON_BACK);
+    back.setAction(() -> StateManager.pop());
+    buttons.add(back);
   }
 
   @Override
