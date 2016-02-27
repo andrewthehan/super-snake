@@ -84,7 +84,7 @@ public class Button extends Component implements Updatable{
 
 
   @Override
-  public void update(long timeElapsed){
+  public void update(double timeElapsed){
     if(MouseManager.isReleased(MouseButton.LEFT)){
       if(state == ButtonState.CLICKED){
         state = ButtonState.HOVERED;

@@ -77,7 +77,7 @@ public class GameState extends AbstractState{
   }
 
   @Override
-  public void update(long timeElapsed){
+  public void update(double timeElapsed){
     player.update(timeElapsed);
     enemies.forEach(e -> e.update(timeElapsed));
     foodSystem.update(timeElapsed);

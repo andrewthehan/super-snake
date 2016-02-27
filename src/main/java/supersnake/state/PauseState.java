@@ -16,7 +16,7 @@ public class PauseState extends AbstractState{
 
   public PauseState(){
     buttons = new HashSet<>();
-    back = new Button((Constants.WORLD_WIDTH - 72) / 2, (Constants.WORLD_HEIGHT - 45) / 2, 72, 45, Assets.BUTTON_BACK);
+    back = new Button((Constants.SCREEN_WIDTH - 72) / 2, (Constants.SCREEN_HEIGHT - 45) / 2, 72, 45, Assets.BUTTON_BACK);
     back.setAction(() -> StateManager.pop());
     buttons.add(back);
   }
@@ -38,7 +38,7 @@ public class PauseState extends AbstractState{
   }
 
   @Override
-  public void update(long timeElapsed){
+  public void update(double timeElapsed){
     buttons.forEach(b -> b.update(timeElapsed));
     if(KeyManager.isReleased(Key.P)){
       StateManager.pop();

@@ -39,7 +39,7 @@ public class Snake implements DynamicBody, Skinnable{
     skin = Skin.SNAKE_DEFAULT;
   }
 
-  public void setUpdateDelay(long updateDelay){
+  public void setUpdateDelay(double updateDelay){
     uController.setUpdateDelay(updateDelay);
   }
 
@@ -183,7 +183,7 @@ public class Snake implements DynamicBody, Skinnable{
   }
 
   @Override
-  public void update(long timeElapsed){
+  public void update(double timeElapsed){
     if(uController.shouldUpdate(timeElapsed)){
       if(nextDirection != direction){
         direction = nextDirection;

@@ -39,7 +39,7 @@ public class CollisionSystem implements Updatable, Renderable{
   }
 
   @Override
-  public void update(long timeElapsed){
+  public void update(double timeElapsed){
     dynamicBodies.forEach(b -> {
       staticBodies.forEach(b::checkCollision);
       dynamicBodies.forEach(b::checkCollision);

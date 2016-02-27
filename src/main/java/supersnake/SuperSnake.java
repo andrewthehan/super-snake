@@ -3,21 +3,21 @@ package supersnake;
 
 import supersnake.input.Key;
 import supersnake.input.KeyManager;
-import supersnake.input.MouseButton;
 import supersnake.input.MouseManager;
 import supersnake.state.MenuState;
 import supersnake.state.StateManager;
 
-import org.lwjgl.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class SuperSnake{
-	private static final int FRAMERATE = 60;
-
   private GLFWErrorCallback errorCallback;
   private GLFWKeyCallback keyCallback;
 	private GLFWCursorPosCallback posCallback;
@@ -25,7 +25,7 @@ public class SuperSnake{
 
   private long window;
 
-  private long lastTime;
+  private double lastTime;
 
   public static void main(String[] args){
     new SuperSnake();
@@ -53,60 +53,19 @@ public class SuperSnake{
       glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
       glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-      window = glfwCreateWindow(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, "Super Snake", NULL, NULL);
+      window = glfwCreateWindow(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, "Super Snake", NULL, NULL);
       if(window == NULL){
         throw new RuntimeException("Failed to create the GLFW window");
       }
 
-      glfwSetKeyCallback(window, keyCallback = GLFWKeyCallback.create((window, key, scancode, action, mods) -> {
-        switch(key){
-          case GLFW_KEY_ESCAPE:
-            KeyManager.setPressed(Key.ESCAPE, action == GLFW_PRESS);
-						break;
-          case GLFW_KEY_UP:
-            KeyManager.setPressed(Key.UP, action == GLFW_PRESS);
-            break;
-          case GLFW_KEY_RIGHT:
-            KeyManager.setPressed(Key.RIGHT, action == GLFW_PRESS);
-            break;
-          case GLFW_KEY_DOWN:
-            KeyManager.setPressed(Key.DOWN, action == GLFW_PRESS);
-            break;
-          case GLFW_KEY_LEFT:
-            KeyManager.setPressed(Key.LEFT, action == GLFW_PRESS);
-            break;
-					case GLFW_KEY_P:
-						KeyManager.setPressed(Key.P, action == GLFW_PRESS);
-						break;
-          default:
-            System.err.println("Key (" + key + ") not supported.");
-            break;
-        }
-      }));
+      glfwSetKeyCallback(window, keyCallback = KeyManager.getCallback());
 
-			glfwSetCursorPosCallback(window, posCallback = GLFWCursorPosCallback.create((window, x, y) -> {
-				MouseManager.setLocation((int) x, (int) (Constants.WORLD_HEIGHT - y));
-			}));
+			glfwSetCursorPosCallback(window, posCallback = MouseManager.getPositionCallback());
 
-			glfwSetMouseButtonCallback(window, mouseCallback = GLFWMouseButtonCallback.create((window, button, action, mods) -> {
-				switch(button){
-					case GLFW_MOUSE_BUTTON_1:
-						MouseManager.setPressed(MouseButton.LEFT, action == GLFW_PRESS);
-						break;
-					case GLFW_MOUSE_BUTTON_2:
-						MouseManager.setPressed(MouseButton.RIGHT, action == GLFW_PRESS);
-						break;
-					case GLFW_MOUSE_BUTTON_3:
-						MouseManager.setPressed(MouseButton.MIDDLE, action == GLFW_PRESS);
-						break;
-					default:
-            System.err.println("Mouse button (" + button + ") not supported.");
-            break;
-				}
-			}));
+			glfwSetMouseButtonCallback(window, mouseCallback = MouseManager.getButtonCallback());
 
       GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-      glfwSetWindowPos(window, (vidmode.width() - Constants.WORLD_WIDTH) / 2, (vidmode.height() - Constants.WORLD_HEIGHT) / 2);
+      glfwSetWindowPos(window, (vidmode.width() - Constants.SCREEN_WIDTH) / 2, (vidmode.height() - Constants.SCREEN_HEIGHT) / 2);
 
       glfwMakeContextCurrent(window);
       glfwSwapInterval(1);
@@ -117,8 +76,8 @@ public class SuperSnake{
   public void loop(){
     GL.createCapabilities();
     glClearColor(1f, 1f, 1f, 0f);
-    glOrtho(0, Constants.WORLD_WIDTH, 0, Constants.WORLD_HEIGHT, 0, 1);
-    glViewport(0, 0, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
+    glOrtho(0, Constants.SCREEN_WIDTH, 0, Constants.SCREEN_HEIGHT, 0, 1);
+		glViewport(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 
     StateManager.push(new MenuState());
 
@@ -142,13 +101,13 @@ public class SuperSnake{
 		keyCallback.release();
   }
 
-	public long getTime(){
-		return System.nanoTime();//GLFW.glfwGetTime();
+	public double getTime(){
+		return glfwGetTime();
 	}
 
-	public long getDelta(){
-		long time = getTime();
-		long delta = time - lastTime;
+	public double getDelta(){
+		double time = getTime();
+		double delta = time - lastTime;
 		lastTime = time;
 		return delta;
 	}

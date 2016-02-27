@@ -16,7 +16,7 @@ public class MenuState extends AbstractState{
 
   public MenuState(){
     buttons = new HashSet<>();
-    play = new Button((Constants.WORLD_WIDTH - 222) / 2, (Constants.WORLD_HEIGHT - 76) / 2, 222, 76, Assets.BUTTON_PLAY);
+    play = new Button((Constants.SCREEN_WIDTH - 222) / 2, (Constants.SCREEN_HEIGHT - 76) / 2, 222, 76, Assets.BUTTON_PLAY);
     play.setAction(() -> StateManager.push(new GameState()));
     buttons.add(play);
   }
@@ -38,7 +38,7 @@ public class MenuState extends AbstractState{
   }
 
   @Override
-  public void update(long timeElapsed){
+  public void update(double timeElapsed){
     buttons.forEach(b -> b.update(timeElapsed));
   }
 

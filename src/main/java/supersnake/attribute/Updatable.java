@@ -2,5 +2,5 @@
 package supersnake.attribute;
 
 public interface Updatable{
-  public void update(long timeElapsed);
+  public void update(double timeElapsed);
 }

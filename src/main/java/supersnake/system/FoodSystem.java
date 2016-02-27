@@ -46,7 +46,7 @@ public class FoodSystem implements Updatable, Renderable{
   }
 
   @Override
-  public void update(long timeElapsed){
+  public void update(double timeElapsed){
     foods.forEach(f -> {
       if(f.isConsumed()){
         f.reset(RNG.location());

@@ -1,13 +1,46 @@
 
 package supersnake.input;
 
+import org.lwjgl.glfw.GLFWKeyCallback;
+import static org.lwjgl.glfw.GLFW.*;
+
 import java.util.Arrays;
 
 public final class KeyManager{
   private static KeyState[] KEY_STATES = new KeyState[Key.NUMBER_OF_KEYS];
+  private static final GLFWKeyCallback callback;
 
   static{
     Arrays.fill(KEY_STATES, KeyState.IDLE);
+    callback = GLFWKeyCallback.create((window, key, scancode, action, mods) -> {
+      switch(key){
+        case GLFW_KEY_ESCAPE:
+          setPressed(Key.ESCAPE, action == GLFW_PRESS);
+          break;
+        case GLFW_KEY_UP:
+          setPressed(Key.UP, action == GLFW_PRESS);
+          break;
+        case GLFW_KEY_RIGHT:
+          setPressed(Key.RIGHT, action == GLFW_PRESS);
+          break;
+        case GLFW_KEY_DOWN:
+          setPressed(Key.DOWN, action == GLFW_PRESS);
+          break;
+        case GLFW_KEY_LEFT:
+          setPressed(Key.LEFT, action == GLFW_PRESS);
+          break;
+        case GLFW_KEY_P:
+          setPressed(Key.P, action == GLFW_PRESS);
+          break;
+        default:
+          System.err.println("Key (" + key + ") not supported.");
+          break;
+      }
+    });
+  }
+
+  public static GLFWKeyCallback getCallback(){
+    return callback;
   }
 
   public static void setPressed(int key, boolean isPressed){

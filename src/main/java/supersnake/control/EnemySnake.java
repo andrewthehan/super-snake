@@ -17,7 +17,7 @@ public class EnemySnake extends Enemy{
   public EnemySnake(){
     snake = new Snake(20, 10, 7);
     snake.setSkin(Skin.SNAKE_ENEMY);
-    snake.setUpdateDelay(Time.SECOND / 7);
+    snake.setUpdateDelay(Time.SECOND / 7.0);
 
     setBody(snake);
   }
@@ -72,7 +72,7 @@ public class EnemySnake extends Enemy{
   }
 
   @Override
-  public void update(long timeElapsed){
+  public void update(double timeElapsed){
     // chance of (not) changing direction
     if(RNG.integer(10) == 0){
       chase();

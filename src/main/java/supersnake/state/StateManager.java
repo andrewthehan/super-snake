@@ -34,7 +34,7 @@ public final class StateManager{
     return s;
   }
 
-  public static void update(long timeElapsed){
+  public static void update(double timeElapsed){
     peek().update(timeElapsed);
   }
 

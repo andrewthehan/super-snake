@@ -17,7 +17,7 @@ public class Player implements Updatable, Renderable{
   public Player(){
     snake = new Snake(10, 10, 5);
     snake.setSkin(Skin.SNAKE_RAINBOW);
-    snake.setUpdateDelay(Time.SECOND / 10);
+    snake.setUpdateDelay(Time.SECOND / 10.0);
   }
 
   public Snake getSnake(){
@@ -33,7 +33,7 @@ public class Player implements Updatable, Renderable{
   }
 
   @Override
-  public void update(long timeElapsed){
+  public void update(double timeElapsed){
     if(KeyManager.isPressed(Key.UP) && snake.getDirection() != Direction.DOWN){
       snake.setNextDirection(Direction.UP);
     }

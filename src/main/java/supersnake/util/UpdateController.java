@@ -2,23 +2,23 @@
 package supersnake.util;
 
 public class UpdateController{
-  private long lastTimeUpdated;
-  private long timeElapsedSinceUpdate;
-  private long updateDelay;
+  private double lastTimeUpdated;
+  private double timeElapsedSinceUpdate;
+  private double updateDelay;
 
   public UpdateController(){
     updateDelay = Time.SECOND;
   }
 
-  public UpdateController(long updateDelay){
+  public UpdateController(double updateDelay){
     this.updateDelay = updateDelay;
   }
 
-  public void setUpdateDelay(long updateDelay){
+  public void setUpdateDelay(double updateDelay){
     this.updateDelay = updateDelay;
   }
 
-  public boolean shouldUpdate(long timeElapsed){
+  public boolean shouldUpdate(double timeElapsed){
     timeElapsedSinceUpdate += timeElapsed;
     if(timeElapsedSinceUpdate > updateDelay){
       timeElapsedSinceUpdate -= updateDelay;
