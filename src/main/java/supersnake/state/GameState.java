@@ -3,6 +3,7 @@ package supersnake.state;
 
 import supersnake.Constants;
 import supersnake.control.Player;
+import supersnake.control.Enemy;
 import supersnake.control.EnemySnake;
 import supersnake.input.Key;
 import supersnake.input.KeyManager;
@@ -17,7 +18,7 @@ import java.util.Set;
 
 public class GameState extends AbstractState{
   private Player player;
-  private Set<EnemySnake> enemySnakes;
+  private Set<Enemy> enemies;
   private Set<Wall> walls;
 
   private FoodSystem foodSystem;
@@ -26,7 +27,7 @@ public class GameState extends AbstractState{
   public GameState(){
     player = new Player();
 
-    enemySnakes = new HashSet<>();
+    enemies = new HashSet<>();
     walls = new HashSet<>();
 
     foodSystem = new FoodSystem();
@@ -37,7 +38,7 @@ public class GameState extends AbstractState{
   public void exit(){
     player.clear();
 
-    enemySnakes.clear();
+    enemies.clear();
     walls.clear();
 
     foodSystem.clear();
@@ -50,7 +51,7 @@ public class GameState extends AbstractState{
 
     EnemySnake enemySnake = new EnemySnake();
     enemySnake.setTarget(player.getSnake());
-    enemySnakes.add(enemySnake);
+    enemies.add(enemySnake);
 
     walls.add(new Wall(0, Constants.GRID_WIDTH, 0, 1));
     walls.add(new Wall(0, Constants.GRID_WIDTH, Constants.GRID_HEIGHT - 1, Constants.GRID_HEIGHT));
@@ -59,7 +60,7 @@ public class GameState extends AbstractState{
 
     foodSystem.setAmount(3);
     collisionSystem.addBody(player.getSnake());
-    enemySnakes.forEach(e -> collisionSystem.addBody(e.getSnake()));
+    enemies.forEach(e -> collisionSystem.addBody(e.getBody()));
     walls.forEach(collisionSystem::addBody);
     collisionSystem.addBodies(foodSystem.getFoods());
   }
@@ -78,7 +79,7 @@ public class GameState extends AbstractState{
   @Override
   public void update(long timeElapsed){
     player.update(timeElapsed);
-    enemySnakes.forEach(e -> e.update(timeElapsed));
+    enemies.forEach(e -> e.update(timeElapsed));
     foodSystem.update(timeElapsed);
     collisionSystem.update(timeElapsed);
     if(KeyManager.isReleased(Key.P)){
@@ -89,7 +90,7 @@ public class GameState extends AbstractState{
   @Override
   public void render(){
     player.render();
-    enemySnakes.forEach(EnemySnake::render);
+    enemies.forEach(Enemy::render);
     walls.forEach(Wall::render);
     foodSystem.render();
     collisionSystem.render();

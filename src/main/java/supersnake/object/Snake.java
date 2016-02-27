@@ -32,14 +32,14 @@ public class Snake implements DynamicBody, Skinnable{
   }
 
   public Snake(Point initialLocation, int length, Direction direction){
-    uController = new UpdateController(1000000000 / 10);
+    uController = new UpdateController();
     body = new ArrayDeque<>();
     reset(initialLocation, length, direction);
 
     skin = Skin.SNAKE_DEFAULT;
   }
 
-  public void setSpeed(long updateDelay){
+  public void setUpdateDelay(long updateDelay){
     uController.setUpdateDelay(updateDelay);
   }
 

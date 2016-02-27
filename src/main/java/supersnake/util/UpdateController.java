@@ -6,6 +6,10 @@ public class UpdateController{
   private long timeElapsedSinceUpdate;
   private long updateDelay;
 
+  public UpdateController(){
+    updateDelay = Time.SECOND;
+  }
+
   public UpdateController(long updateDelay){
     this.updateDelay = updateDelay;
   }

@@ -9,12 +9,15 @@ import supersnake.input.KeyManager;
 import supersnake.object.decoration.Skin;
 import supersnake.object.Snake;
 import supersnake.util.Direction;
+import supersnake.util.Time;
 
 public class Player implements Updatable, Renderable{
   private Snake snake;
 
   public Player(){
     snake = new Snake(10, 10, 5);
+    snake.setSkin(Skin.SNAKE_RAINBOW);
+    snake.setUpdateDelay(Time.SECOND / 10);
   }
 
   public Snake getSnake(){
@@ -27,7 +30,6 @@ public class Player implements Updatable, Renderable{
 
   public void reset(){
     snake.reset(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2, 5, Direction.UP);
-    snake.setSkin(Skin.SNAKE_RAINBOW);
   }
 
   @Override

@@ -1,8 +1,6 @@
 
 package supersnake.control;
 
-import supersnake.attribute.Renderable;
-import supersnake.attribute.Updatable;
 import supersnake.Constants;
 import supersnake.object.attribute.Body;
 import supersnake.object.decoration.Skin;
@@ -10,15 +8,18 @@ import supersnake.object.Snake;
 import supersnake.util.CellBlock;
 import supersnake.util.Direction;
 import supersnake.util.RNG;
+import supersnake.util.Time;
 
-public class EnemySnake implements Updatable, Renderable{
+public class EnemySnake extends Enemy{
   private Snake snake;
   private Body target;
 
   public EnemySnake(){
     snake = new Snake(20, 10, 7);
-    snake.setSpeed(1000000000 / 7);
     snake.setSkin(Skin.SNAKE_ENEMY);
+    snake.setUpdateDelay(Time.SECOND / 7);
+
+    setBody(snake);
   }
 
   public void setTarget(Body target){
@@ -54,10 +55,7 @@ public class EnemySnake implements Updatable, Renderable{
       }
     }
 
-    // chance of (not) changing direction
-    if(RNG.integer(5) == 0){
-      snake.setNextDirection(nextDirection);
-    }
+    snake.setNextDirection(nextDirection);
   }
 
   public Snake getSnake(){
@@ -75,7 +73,10 @@ public class EnemySnake implements Updatable, Renderable{
 
   @Override
   public void update(long timeElapsed){
-    chase();
+    // chance of (not) changing direction
+    if(RNG.integer(10) == 0){
+      chase();
+    }
     snake.update(timeElapsed);
   }
 
