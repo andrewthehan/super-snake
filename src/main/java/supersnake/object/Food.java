@@ -7,7 +7,6 @@ import supersnake.object.attribute.Skinnable;
 import supersnake.object.attribute.StaticBody;
 import supersnake.object.decoration.Skin;
 import supersnake.util.CellBlock;
-import supersnake.util.RNG;
 
 import java.awt.Color;
 import java.awt.Point;

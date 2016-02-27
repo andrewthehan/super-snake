@@ -76,8 +76,6 @@ public class SuperSnake{
   public void loop(){
     GL.createCapabilities();
     glClearColor(1f, 1f, 1f, 0f);
-    glOrtho(0, Constants.SCREEN_WIDTH, 0, Constants.SCREEN_HEIGHT, 0, 1);
-		glViewport(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 
     StateManager.push(new MenuState());
 

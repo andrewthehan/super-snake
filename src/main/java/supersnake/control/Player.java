@@ -3,7 +3,6 @@ package supersnake.control;
 
 import supersnake.attribute.Renderable;
 import supersnake.attribute.Updatable;
-import supersnake.Constants;
 import supersnake.input.Key;
 import supersnake.input.KeyManager;
 import supersnake.object.decoration.Skin;
@@ -15,7 +14,11 @@ public class Player implements Updatable, Renderable{
   private Snake snake;
 
   public Player(){
-    snake = new Snake(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2, 5, Direction.UP);
+    this(0, 0, 1, Direction.UP);
+  }
+
+  public Player(int x, int y, int length, Direction direction){
+    snake = new Snake(x, y, length, direction);
     snake.setSkin(Skin.SNAKE_RAINBOW);
     snake.setUpdateDelay(Time.SECOND / 10.0);
   }

@@ -7,6 +7,8 @@ import supersnake.graphic.ui.Button;
 import supersnake.state.GameState;
 import supersnake.state.StateManager;
 
+import static org.lwjgl.opengl.GL11.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,10 +22,13 @@ public class MenuState extends AbstractState{
   @Override
   public void load(){
     buttons = new HashSet<>();
-    
+
     Button play = new Button((Constants.SCREEN_WIDTH - 222) / 2, (Constants.SCREEN_HEIGHT - 76) / 2, 222, 76, Assets.BUTTON_PLAY);
     play.setAction(() -> StateManager.push(new GameState()));
     buttons.add(play);
+
+    glLoadIdentity();
+    glOrtho(0, Constants.SCREEN_WIDTH, 0, Constants.SCREEN_HEIGHT, -1, 1);
   }
 
   @Override
@@ -32,6 +37,8 @@ public class MenuState extends AbstractState{
 
   @Override
   public void resume(){
+    glLoadIdentity();
+    glOrtho(0, Constants.SCREEN_WIDTH, 0, Constants.SCREEN_HEIGHT, -1, 1);
   }
 
   @Override

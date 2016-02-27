@@ -1,7 +1,7 @@
 
 package supersnake.util;
 
-import supersnake.object.exception.IndexOutOfSyncException;
+import supersnake.util.exception.IndexOutOfSyncException;
 
 import java.awt.Color;
 

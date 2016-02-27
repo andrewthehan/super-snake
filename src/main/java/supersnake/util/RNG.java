@@ -1,8 +1,6 @@
 
 package supersnake.util;
 
-import supersnake.Constants;
-
 import java.awt.Point;
 import java.util.Random;
 
@@ -15,10 +13,6 @@ public final class RNG{
 
   public static int integer(int i){
     return R.nextInt(i);
-  }
-
-  public static Point location(){
-    return location(0, Constants.GRID_WIDTH, 0, Constants.GRID_HEIGHT);
   }
 
   public static Point location(int x0, int x1, int y0, int y1){
