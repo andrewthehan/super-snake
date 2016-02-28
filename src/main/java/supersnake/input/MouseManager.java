@@ -27,21 +27,23 @@ public final class MouseManager{
       setLocation((int) x - VIEWPORT_PARAMS.get(0), (int) (Constants.SCREEN_HEIGHT - y) - VIEWPORT_PARAMS.get(1));
     });
     buttonCallback = GLFWMouseButtonCallback.create((window, button, action, mods) -> {
-      switch(button){
-        case GLFW_MOUSE_BUTTON_1:
-          setPressed(MouseButton.LEFT, action == GLFW_PRESS);
-          break;
-        case GLFW_MOUSE_BUTTON_2:
-          setPressed(MouseButton.RIGHT, action == GLFW_PRESS);
-          break;
-        case GLFW_MOUSE_BUTTON_3:
-          setPressed(MouseButton.MIDDLE, action == GLFW_PRESS);
-          break;
-        default:
-          System.err.println("Mouse button (" + button + ") not supported.");
-          break;
+      int b = convertGLFWToMouseButton(button);
+      if(b == -1){
+        System.err.println("Mouse button (" + button + ") not supported.");
+      }
+      else{
+        setPressed(b, action == GLFW_PRESS);
       }
     });
+  }
+
+  private static int convertGLFWToMouseButton(int glfwMouseButton){
+    switch(glfwMouseButton){
+      case GLFW_MOUSE_BUTTON_1: return MouseButton.LEFT;
+      case GLFW_MOUSE_BUTTON_2: return MouseButton.RIGHT;
+      case GLFW_MOUSE_BUTTON_3: return MouseButton.MIDDLE;
+      default: return -1;
+    }
   }
 
   public static GLFWCursorPosCallback getPositionCallback(){

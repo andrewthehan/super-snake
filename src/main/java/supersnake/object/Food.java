@@ -21,7 +21,7 @@ public class Food implements StaticBody, Skinnable{
   public Food(int x, int y){
     body = new CellBlock(x, y);
     isConsumed = false;
-    skin = Skin.FOOD_DEFAULT;
+    skin = Skin.DEFAULT_FOOD;
   }
 
   public Food(Point location){

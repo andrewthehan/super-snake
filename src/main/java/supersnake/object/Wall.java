@@ -25,7 +25,7 @@ public class Wall implements StaticBody, Skinnable{
       }
     }
 
-    skin = Skin.WALL_DEFAULT;
+    skin = Skin.DEFAULT_WALL;
   }
 
   @Override

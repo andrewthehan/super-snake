@@ -5,10 +5,10 @@ import supersnake.attribute.Renderable;
 import supersnake.attribute.Updatable;
 import supersnake.input.Key;
 import supersnake.input.KeyManager;
-import supersnake.object.decoration.Skin;
 import supersnake.object.Snake;
 import supersnake.util.Direction;
 import supersnake.util.Time;
+import supersnake.Skins;
 
 public class Player implements Updatable, Renderable{
   private Snake snake;
@@ -19,7 +19,7 @@ public class Player implements Updatable, Renderable{
 
   public Player(int x, int y, int length, Direction direction){
     snake = new Snake(x, y, length, direction);
-    snake.setSkin(Skin.SNAKE_RAINBOW);
+    snake.setSkin(Skins.SNAKE_RAINBOW);
     snake.setUpdateDelay(Time.SECOND / 10.0);
   }
 

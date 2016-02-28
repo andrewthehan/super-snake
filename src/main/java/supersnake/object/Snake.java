@@ -40,7 +40,7 @@ public class Snake implements DynamicBody, Skinnable{
     body = new ArrayDeque<>();
     init(initialLocation, length, direction);
 
-    skin = Skin.SNAKE_DEFAULT;
+    skin = Skin.DEFAULT_SNAKE;
   }
 
   private void init(int x, int y, int length, Direction direction){

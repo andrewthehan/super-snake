@@ -61,11 +61,7 @@ public class FoodSystem implements Updatable, Renderable{
 
   @Override
   public void update(double timeElapsed){
-    foods.forEach(f -> {
-      if(f.isConsumed()){
-        f.move(randomValidPosition());
-      }
-    });
+    foods.stream().filter(Food::isConsumed).forEach(f -> f.move(randomValidPosition()));
   }
 
   @Override

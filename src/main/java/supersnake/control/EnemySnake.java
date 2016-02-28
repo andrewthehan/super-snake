@@ -1,14 +1,13 @@
 
 package supersnake.control;
 
-import supersnake.Constants;
 import supersnake.object.attribute.Body;
-import supersnake.object.decoration.Skin;
 import supersnake.object.Snake;
 import supersnake.util.CellBlock;
 import supersnake.util.Direction;
 import supersnake.util.RNG;
 import supersnake.util.Time;
+import supersnake.Skins;
 
 public class EnemySnake extends Enemy{
   private Snake snake;
@@ -16,7 +15,7 @@ public class EnemySnake extends Enemy{
   public EnemySnake(Body target, int x, int y, int length){
     super(new Snake(x, y, length), target);
     snake = (Snake) object;
-    snake.setSkin(Skin.SNAKE_ENEMY);
+    snake.setSkin(Skins.SNAKE_ENEMY);
     snake.setUpdateDelay(Time.SECOND / 7.0);
   }
 
