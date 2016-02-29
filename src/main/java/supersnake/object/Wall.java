@@ -7,6 +7,7 @@ import supersnake.object.attribute.Skinnable;
 import supersnake.object.attribute.StaticBody;
 import supersnake.object.decoration.Skin;
 import supersnake.util.CellBlock;
+import supersnake.util.Location;
 
 import java.awt.Color;
 import java.util.Collection;
@@ -34,7 +35,7 @@ public class Wall implements StaticBody, Skinnable{
   }
 
   @Override
-  public void collide(Body body){
+  public void collide(Body collided, Location location){
   }
 
   @Override

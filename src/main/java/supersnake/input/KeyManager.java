@@ -13,12 +13,14 @@ public final class KeyManager{
   static{
     Arrays.fill(KEY_STATES, KeyState.IDLE);
     callback = GLFWKeyCallback.create((window, key, scancode, action, mods) -> {
-      int k = convertGLFWToKey(key);
-      if(k == -1){
-        System.err.println("Key (" + key + ") not supported.");
-      }
-      else{
-        setPressed(k, action == GLFW_PRESS);
+      if(action == GLFW_PRESS || action == GLFW_RELEASE){
+        int k = convertGLFWToKey(key);
+        if(k == -1){
+          System.err.println("Key (" + key + ") not supported.");
+        }
+        else{
+          setPressed(k, action == GLFW_PRESS);
+        }
       }
     });
   }
@@ -56,9 +58,12 @@ public final class KeyManager{
       case GLFW_KEY_RIGHT: return Key.RIGHT;
       case GLFW_KEY_DOWN: return Key.DOWN;
       case GLFW_KEY_LEFT: return Key.LEFT;
-      case GLFW_MOD_ALT: return Key.ALT;
-      case GLFW_MOD_CONTROL: return Key.CTRL;
-      case GLFW_MOD_SHIFT: return Key.SHIFT;
+      case GLFW_KEY_LEFT_ALT: return Key.LEFT_ALT;
+      case GLFW_KEY_LEFT_CONTROL: return Key.LEFT_CTRL;
+      case GLFW_KEY_LEFT_SHIFT: return Key.LEFT_SHIFT;
+      case GLFW_KEY_RIGHT_ALT: return Key.RIGHT_ALT;
+      case GLFW_KEY_RIGHT_CONTROL: return Key.RIGHT_CTRL;
+      case GLFW_KEY_RIGHT_SHIFT: return Key.RIGHT_SHIFT;
       default: return -1;
     }
   }
@@ -76,11 +81,11 @@ public final class KeyManager{
   }
 
   public static boolean isIdle(int key){
-    return KEY_STATES[key] == KeyState.IDLE;
+    return KEY_STATES[key] == KeyState.IDLE || KEY_STATES[key] == KeyState.RELEASED;
   }
 
   public static boolean isHeld(int key){
-    return KEY_STATES[key] == KeyState.HELD;
+    return KEY_STATES[key] == KeyState.HELD || KEY_STATES[key] == KeyState.PRESSED;
   }
 
   public static boolean isPressed(int key){

@@ -7,9 +7,9 @@ import supersnake.object.attribute.Skinnable;
 import supersnake.object.attribute.StaticBody;
 import supersnake.object.decoration.Skin;
 import supersnake.util.CellBlock;
+import supersnake.util.Location;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -24,8 +24,8 @@ public class Food implements StaticBody, Skinnable{
     skin = Skin.DEFAULT_FOOD;
   }
 
-  public Food(Point location){
-    this((int) location.getX(), (int) location.getY());
+  public Food(Location location){
+    this(location.getX(), location.getY());
   }
 
   public int getX(){
@@ -36,7 +36,7 @@ public class Food implements StaticBody, Skinnable{
     return body.getY();
   }
 
-  public Point getLocation(){
+  public Location getLocation(){
     return body.getLocation();
   }
 
@@ -53,7 +53,7 @@ public class Food implements StaticBody, Skinnable{
     isConsumed = false;
   }
 
-  public void move(Point location){
+  public void move(Location location){
     body.setLocation(location);
     isConsumed = false;
   }
@@ -66,8 +66,8 @@ public class Food implements StaticBody, Skinnable{
   }
 
   @Override
-  public void collide(Body b){
-    if(b instanceof Snake){
+  public void collide(Body collided, Location location){
+    if(collided instanceof Snake){
       isConsumed = true;
     }
   }

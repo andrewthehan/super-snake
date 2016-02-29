@@ -1,8 +1,6 @@
 
 package supersnake.util;
 
-import java.awt.Point;
-
 public class CellBlock{
   private int x, y;
 
@@ -11,17 +9,12 @@ public class CellBlock{
     this.y = y;
   }
 
-  public CellBlock(Point location){
-    this((int) location.getX(), (int) location.getY());
+  public CellBlock(Location location){
+    this(location.getX(), location.getY());
   }
 
   public boolean intersects(CellBlock cb){
     return x == cb.getX() && y == cb.getY();
-  }
-
-  @Override
-  public boolean equals(Object o){
-    return (o instanceof CellBlock) && (this == (CellBlock) o);
   }
 
   public int getX(){
@@ -32,8 +25,8 @@ public class CellBlock{
     return y;
   }
 
-  public Point getLocation(){
-    return new Point(x, y);
+  public Location getLocation(){
+    return new Location(x, y);
   }
 
   public void setX(int x){
@@ -49,9 +42,9 @@ public class CellBlock{
     this.y = y;
   }
 
-  public void setLocation(Point location){
-    x = (int) location.getX();
-    y = (int) location.getY();
+  public void setLocation(Location location){
+    this.x = location.getX();
+    this.y = location.getY();
   }
 
   public void translate(int dx, int dy){

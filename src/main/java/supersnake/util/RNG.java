@@ -1,7 +1,8 @@
 
 package supersnake.util;
 
-import java.awt.Point;
+import supersnake.object.Map;
+
 import java.util.Random;
 
 public final class RNG{
@@ -15,7 +16,11 @@ public final class RNG{
     return R.nextInt(i);
   }
 
-  public static Point location(int x0, int x1, int y0, int y1){
-    return new Point(integer(x1 - x0) + x0, integer(y1 - y0) + y0);
+  public static Location location(int x0, int x1, int y0, int y1){
+    return new Location(integer(x1 - x0) + x0, integer(y1 - y0) + y0);
+  }
+
+  public static Location location(Map.Bounds bounds){
+    return location(bounds.getLeft(), bounds.getRight(), bounds.getBottom(), bounds.getTop());
   }
 }

@@ -9,10 +9,10 @@ import supersnake.object.decoration.Skin;
 import supersnake.object.exception.InvalidSkinException;
 import supersnake.util.CellBlock;
 import supersnake.util.Direction;
+import supersnake.util.Location;
 import supersnake.util.UpdateController;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.util.Collection;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -24,18 +24,18 @@ public class Snake implements DynamicBody, Skinnable{
   private Skin.SnakeSkin skin;
 
   public Snake(int x, int y, int length){
-    this(new Point(x, y), length, Direction.UP);
+    this(new Location(x, y), length, Direction.UP);
   }
 
   public Snake(int x, int y, int length, Direction direction){
-    this(new Point(x, y), length, direction);
+    this(new Location(x, y), length, direction);
   }
 
-  public Snake(Point initialLocation, int length){
+  public Snake(Location initialLocation, int length){
     this(initialLocation, length, Direction.UP);
   }
 
-  public Snake(Point initialLocation, int length, Direction direction){
+  public Snake(Location initialLocation, int length, Direction direction){
     uController = new UpdateController();
     body = new ArrayDeque<>();
     init(initialLocation, length, direction);
@@ -44,10 +44,10 @@ public class Snake implements DynamicBody, Skinnable{
   }
 
   private void init(int x, int y, int length, Direction direction){
-    init(new Point(x, y), length, direction);
+    init(new Location(x, y), length, direction);
   }
 
-  private void init(Point initialLocation, int length, Direction direction){
+  private void init(Location initialLocation, int length, Direction direction){
     for(int i = 0; i < length; ++i){
       body.addLast(new CellBlock(initialLocation));
     }
@@ -55,24 +55,7 @@ public class Snake implements DynamicBody, Skinnable{
     this.direction = direction;
     this.nextDirection = direction;
 
-    int i = 0;
-    for(CellBlock cb : body){
-      switch(direction){
-        case UP:
-          cb.translate(0, -i);
-          break;
-        case RIGHT:
-          cb.translate(-i, 0);
-          break;
-        case DOWN:
-          cb.translate(0, i);
-          break;
-        case LEFT:
-          cb.translate(i, 0);
-          break;
-      }
-      ++i;
-    }
+    setLocation(initialLocation);
   }
 
   public void setUpdateDelay(double updateDelay){
@@ -114,12 +97,34 @@ public class Snake implements DynamicBody, Skinnable{
     body.removeLast();
   }
 
-  public void setLocation(int x, int y){
-    body.forEach(cb -> cb.setLocation(x, y));
+  public void decrementFromHead(){
+    body.removeFirst();
   }
 
-  public void setLocation(Point location){
+  public void setLocation(int x, int y){
+    setLocation(new Location(x, y));
+  }
+
+  public void setLocation(Location location){
     body.forEach(cb -> cb.setLocation(location));
+    for(CellBlock cb : body){
+      if(cb != getHead()){
+        switch(direction){
+          case UP:
+            cb.translate(0, -1);
+            break;
+          case RIGHT:
+            cb.translate(-1, 0);
+            break;
+          case DOWN:
+            cb.translate(0, 1);
+            break;
+          case LEFT:
+            cb.translate(1, 0);
+            break;
+        }
+      }
+    }
   }
 
   public CellBlock getHead(){
@@ -158,30 +163,51 @@ public class Snake implements DynamicBody, Skinnable{
   }
 
   @Override
-  public void collide(Body body){
-    if(body instanceof Food){
+  public void collide(Body collided, Location location){
+    if(collided instanceof Food){
       increment();
     }
-    else if(body instanceof Wall){
-      System.out.println("WALL DEAD");
+    else if(collided instanceof Wall){
+      decrementFromHead();
     }
-    else if(body instanceof Snake){
-      System.out.println("SNAKE DEAD");
+    else if(collided instanceof Snake){
+      Snake collidedSnake = (Snake) collided;
+      // collided with itself
+      if(collidedSnake == this){
+        CellBlock newTail = body.stream().filter(cb -> cb.intersects(getHead()) && cb != getHead()).findFirst().get();
+        while(newTail != getTail()){
+          decrement();
+        }
+      }
+      else{
+        // head collided with something else (head or body)
+        if(getHead().getLocation().equals(location)){
+          decrementFromHead();
+        }
+        // body collided with another snake's head
+        else if(body.stream().anyMatch(cb -> cb.getLocation().equals(location))){
+          CellBlock newTail = body.stream().filter(cb -> cb.getLocation().equals(location)).findFirst().get();
+          while(newTail != getTail()){
+            decrement();
+          }
+        }
+      }
     }
   }
 
   @Override
-  public void checkCollision(Body body){
-    if(body instanceof Snake && this == (Snake) body){
+  public void checkCollision(Body collided){
+    if(collided instanceof Snake && (Snake) collided == this){
       CellBlock head = getHead();
       for(CellBlock cb : getBody()){
-        if(head.intersects(cb) && !head.equals(cb)){
-          collide(body);
+        if(head.intersects(cb) && head != cb){
+          collide(collided, cb.getLocation());
+          break;
         }
       }
     }
     else{
-      DynamicBody.super.checkCollision(body);
+      DynamicBody.super.checkCollision(collided);
     }
   }
 

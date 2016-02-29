@@ -34,8 +34,11 @@ public final class Key{
   public static final int RIGHT = i++;
   public static final int DOWN = i++;
   public static final int LEFT = i++;
-  public static final int ALT = i++;
-  public static final int CTRL = i++;
-  public static final int SHIFT = i++;
+  public static final int LEFT_ALT = i++;
+  public static final int LEFT_CTRL = i++;
+  public static final int LEFT_SHIFT = i++;
+  public static final int RIGHT_ALT = i++;
+  public static final int RIGHT_CTRL = i++;
+  public static final int RIGHT_SHIFT = i++;
   public static final int NUMBER_OF_KEYS = i;
 }
