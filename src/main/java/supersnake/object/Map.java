@@ -53,9 +53,6 @@ public class Map implements Renderable, Updatable{
 
   public boolean intersects(CellBlock cell){
     return getBodies().stream().flatMap(b -> b.getBody().stream()).anyMatch(cb -> cb.intersects(cell));
-    // return foodSystem.getFoods().stream().anyMatch(f -> f.getBody().stream().anyMatch(cb -> cb.intersects(cell)))
-    //   || walls.stream().anyMatch(w -> w.getBody().stream().anyMatch(cb -> cb.intersects(cell)))
-    //   || enemies.stream().anyMatch(e -> e.getObject().getBody().stream().anyMatch(cb -> cb.intersects(cell)));
   }
 
   public Bounds getBounds(){

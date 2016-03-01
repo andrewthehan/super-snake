@@ -9,11 +9,10 @@ import supersnake.input.KeyManager;
 import supersnake.object.decoration.Skin;
 import supersnake.object.Map;
 import supersnake.object.Wall;
+import supersnake.system.CameraSystem;
 import supersnake.system.CollisionSystem;
 import supersnake.util.CellBlock;
 import supersnake.util.Direction;
-
-import static org.lwjgl.opengl.GL11.*;
 
 public class GameState extends AbstractState{
   private Map map;
@@ -39,6 +38,8 @@ public class GameState extends AbstractState{
     collisionSystem.setMap(map);
 
     map.load(player);
+
+    CameraSystem.setTarget(player.getSnake());
   }
 
   @Override
@@ -55,16 +56,7 @@ public class GameState extends AbstractState{
     map.update(timeElapsed);
     collisionSystem.update(timeElapsed);
 
-    if(map.getPlayer() != null){
-      CellBlock head = map.getPlayer().getSnake().getHead();
-      int x0 = head.getX() * Constants.CELL_BLOCK_SIZE - Constants.SCREEN_WIDTH / 2;
-      int x1 = x0 + Constants.SCREEN_WIDTH;
-      int y0 = head.getY() * Constants.CELL_BLOCK_SIZE - Constants.SCREEN_HEIGHT / 2;
-      int y1 = y0 + Constants.SCREEN_HEIGHT;
-
-      glLoadIdentity();
-      glOrtho(x0, x1, y0, y1, -1, 1);
-    }
+    CameraSystem.update(timeElapsed);
 
     if(KeyManager.isReleased(Key.P)){
       StateManager.push(new PauseState());
