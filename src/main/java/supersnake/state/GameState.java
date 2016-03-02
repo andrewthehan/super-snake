@@ -39,7 +39,8 @@ public class GameState extends AbstractState{
 
     map.load(player);
 
-    CameraSystem.setTarget(player.getSnake());
+    CameraSystem.addTarget(player.getSnake());
+    CameraSystem.addTargets(map.getEnemies().stream().map(supersnake.control.Enemy::getObject).collect(java.util.stream.Collectors.toSet()));
   }
 
   @Override

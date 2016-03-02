@@ -81,6 +81,8 @@ public class Map implements Renderable, Updatable{
 
   @Override
   public void update(double timeElapsed){
+    if(supersnake.input.KeyManager.isHeld(supersnake.input.Key.LEFT_CTRL)) return;
+    
     if(player != null){
       player.update(timeElapsed);
     }
