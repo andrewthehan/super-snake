@@ -2,8 +2,8 @@
 package supersnake.state;
 
 import supersnake.Constants;
-import supersnake.control.Player;
-import supersnake.control.EnemySnake;
+import supersnake.actor.Player;
+import supersnake.actor.EnemySnake;
 import supersnake.input.Key;
 import supersnake.input.KeyManager;
 import supersnake.object.decoration.Skin;
@@ -30,7 +30,7 @@ public class GameState extends AbstractState{
       .setBounds(0, 40, 0, 40)
       .setSpawnLocation(25, 25)
       .setFoodAmount(3)
-      .add(new EnemySnake(player.getSnake(), 15, 10, 20))
+      .add(new EnemySnake(player.getObject(), 15, 10, 20))
       .add(new Wall(20, 23, 0, 10))
       .build();
 
@@ -39,8 +39,8 @@ public class GameState extends AbstractState{
 
     map.load(player);
 
-    CameraSystem.addTarget(player.getSnake());
-    CameraSystem.addTargets(map.getEnemies().stream().map(supersnake.control.Enemy::getObject).collect(java.util.stream.Collectors.toSet()));
+    CameraSystem.addTarget(player.getObject());
+    CameraSystem.addTargets(map.getEnemies().stream().map(supersnake.actor.Enemy::getObject).collect(java.util.stream.Collectors.toSet()));
   }
 
   @Override

@@ -1,5 +1,5 @@
 
-package supersnake.control;
+package supersnake.actor;
 
 import supersnake.object.attribute.Body;
 import supersnake.object.Snake;

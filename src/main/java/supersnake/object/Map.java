@@ -3,8 +3,8 @@ package supersnake.object;
 
 import supersnake.attribute.Renderable;
 import supersnake.attribute.Updatable;
-import supersnake.control.Enemy;
-import supersnake.control.Player;
+import supersnake.actor.Enemy;
+import supersnake.actor.Player;
 import supersnake.object.attribute.Body;
 import supersnake.object.exception.AlreadyInitializedException;
 import supersnake.object.Wall;
@@ -37,7 +37,7 @@ public class Map implements Renderable, Updatable{
 
   public void load(Player player){
     this.player = player;
-    player.getSnake().setLocation(spawnLocation);
+    ((Snake) player.getObject()).setLocation(spawnLocation);
   }
 
   public Collection<Body> getBodies(){
@@ -46,7 +46,7 @@ public class Map implements Renderable, Updatable{
     bodies.addAll(enemies.stream().map(Enemy::getObject).collect(Collectors.toSet()));
     bodies.addAll(walls);
     if(player != null){
-      bodies.add(player.getSnake());
+      bodies.add(player.getObject());
     }
     return bodies;
   }
@@ -81,8 +81,9 @@ public class Map implements Renderable, Updatable{
 
   @Override
   public void update(double timeElapsed){
+    // TODO: testing purposes; remove later
     if(supersnake.input.KeyManager.isHeld(supersnake.input.Key.LEFT_CTRL)) return;
-    
+
     if(player != null){
       player.update(timeElapsed);
     }

@@ -1,5 +1,5 @@
 
-package supersnake.control;
+package supersnake.actor;
 
 import supersnake.attribute.Renderable;
 import supersnake.attribute.Updatable;
@@ -10,7 +10,7 @@ import supersnake.util.Direction;
 import supersnake.util.Time;
 import supersnake.Skins;
 
-public class Player implements Updatable, Renderable{
+public class Player extends Actor implements Updatable, Renderable{
   private Snake snake;
 
   public Player(){
@@ -18,13 +18,10 @@ public class Player implements Updatable, Renderable{
   }
 
   public Player(int x, int y, int length, Direction direction){
-    snake = new Snake(x, y, length, direction);
+    super(new Snake(x, y, length, direction));
+    snake = (Snake) getObject();
     snake.setSkin(Skins.SNAKE_RAINBOW);
     snake.setUpdateDelay(Time.SECOND / 10.0);
-  }
-
-  public Snake getSnake(){
-    return snake;
   }
 
   @Override
