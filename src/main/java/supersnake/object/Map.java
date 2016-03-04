@@ -3,7 +3,7 @@ package supersnake.object;
 
 import supersnake.attribute.Renderable;
 import supersnake.attribute.Updatable;
-import supersnake.actor.Enemy;
+import supersnake.actor.Actor;
 import supersnake.actor.Player;
 import supersnake.object.attribute.Body;
 import supersnake.object.exception.AlreadyInitializedException;
@@ -23,31 +23,25 @@ public class Map implements Renderable, Updatable{
 
   private FoodSystem foodSystem;
   private Set<Wall> walls;
-  private Set<Enemy> enemies;
+  private Set<Actor> actors;
 
-  private Player player;
-
-  public Map(Bounds bounds, Location spawnLocation, FoodSystem foodSystem, Set<Wall> walls, Set<Enemy> enemies){
+  public Map(Bounds bounds, Location spawnLocation, FoodSystem foodSystem, Set<Wall> walls, Set<Actor> actors){
     this.bounds = bounds;
     this.spawnLocation = spawnLocation;
     this.foodSystem = foodSystem;
     this.walls = walls;
-    this.enemies = enemies;
+    this.actors = actors;
   }
 
   public void load(Player player){
-    this.player = player;
     ((Snake) player.getObject()).setLocation(spawnLocation);
   }
 
   public Collection<Body> getBodies(){
     Set<Body> bodies = new HashSet<>();
     bodies.addAll(foodSystem.getFoods());
-    bodies.addAll(enemies.stream().map(Enemy::getObject).collect(Collectors.toSet()));
+    bodies.addAll(actors.stream().map(Actor::getObject).collect(Collectors.toSet()));
     bodies.addAll(walls);
-    if(player != null){
-      bodies.add(player.getObject());
-    }
     return bodies;
   }
 
@@ -71,12 +65,8 @@ public class Map implements Renderable, Updatable{
     return walls;
   }
 
-  public Set<Enemy> getEnemies(){
-    return enemies;
-  }
-
-  public Player getPlayer(){
-    return player;
+  public Set<Actor> getActors(){
+    return actors;
   }
 
   @Override
@@ -84,21 +74,15 @@ public class Map implements Renderable, Updatable{
     // TODO: testing purposes; remove later
     if(supersnake.input.KeyManager.isHeld(supersnake.input.Key.LEFT_CTRL)) return;
 
-    if(player != null){
-      player.update(timeElapsed);
-    }
     foodSystem.update(timeElapsed);
-    enemies.forEach(e -> e.update(timeElapsed));
+    actors.forEach(e -> e.update(timeElapsed));
   }
 
   @Override
   public void render(){
-    if(player != null){
-      player.render();
-    }
     foodSystem.render();
     walls.forEach(Renderable::render);
-    enemies.forEach(Renderable::render);
+    actors.forEach(Renderable::render);
   }
 
   public static class Bounds{
@@ -143,12 +127,12 @@ public class Map implements Renderable, Updatable{
     private Location spawnLocation;
     private FoodSystem foodSystem;
     private Set<Wall> walls;
-    private Set<Enemy> enemies;
+    private Set<Actor> actors;
 
     public MapBuilder(){
       foodSystem = new FoodSystem();
       this.walls = new HashSet<>();
-      this.enemies = new HashSet<>();
+      this.actors = new HashSet<>();
     }
 
     public MapBuilder setBounds(int x0, int x1, int y0, int y1){
@@ -178,13 +162,13 @@ public class Map implements Renderable, Updatable{
       return this;
     }
 
-    public MapBuilder add(Enemy enemy){
-      enemies.add(enemy);
+    public MapBuilder add(Actor enemy){
+      actors.add(enemy);
       return this;
     }
 
     public Map build(){
-      return new Map(bounds, spawnLocation, foodSystem, walls, enemies);
+      return new Map(bounds, spawnLocation, foodSystem, walls, actors);
     }
   }
 }

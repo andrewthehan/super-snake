@@ -30,6 +30,7 @@ public class GameState extends AbstractState{
       .setBounds(0, 40, 0, 40)
       .setSpawnLocation(25, 25)
       .setFoodAmount(3)
+      .add(player)
       .add(new EnemySnake(player.getObject(), 15, 10, 20))
       .add(new Wall(20, 23, 0, 10))
       .build();
@@ -39,8 +40,7 @@ public class GameState extends AbstractState{
 
     map.load(player);
 
-    CameraSystem.addTarget(player.getObject());
-    CameraSystem.addTargets(map.getEnemies().stream().map(supersnake.actor.Enemy::getObject).collect(java.util.stream.Collectors.toSet()));
+    CameraSystem.addTargets(map.getActors().stream().map(supersnake.actor.Actor::getObject).collect(java.util.stream.Collectors.toSet()));
   }
 
   @Override
