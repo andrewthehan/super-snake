@@ -1,11 +1,11 @@
 
-package supersnake.object;
+package supersnake.game.object;
 
 import supersnake.graphic.CellBlockRenderer;
-import supersnake.object.attribute.Body;
-import supersnake.object.attribute.Skinnable;
-import supersnake.object.attribute.StaticBody;
-import supersnake.object.decoration.Skin;
+import supersnake.game.object.attribute.Body;
+import supersnake.game.object.attribute.Skinnable;
+import supersnake.game.object.attribute.StaticBody;
+import supersnake.game.object.decoration.Skin;
 import supersnake.util.CellBlock;
 import supersnake.util.Location;
 

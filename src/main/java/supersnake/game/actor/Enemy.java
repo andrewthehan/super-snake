@@ -1,7 +1,7 @@
 
-package supersnake.actor;
+package supersnake.game.actor;
 
-import supersnake.object.attribute.Body;
+import supersnake.game.object.attribute.Body;
 
 public abstract class Enemy extends Actor{
   protected Body target;

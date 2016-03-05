@@ -1,12 +1,12 @@
 
-package supersnake.system;
+package supersnake.game.system;
 
 import supersnake.attribute.Renderable;
 import supersnake.attribute.Updatable;
-import supersnake.object.attribute.Body;
-import supersnake.object.attribute.DynamicBody;
-import supersnake.object.attribute.StaticBody;
-import supersnake.object.Map;
+import supersnake.game.map.Map;
+import supersnake.game.object.attribute.Body;
+import supersnake.game.object.attribute.DynamicBody;
+import supersnake.game.object.attribute.StaticBody;
 
 import java.util.stream.Collectors;
 import java.util.Collection;

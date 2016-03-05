@@ -1,9 +1,9 @@
 
-package supersnake.actor;
+package supersnake.game.actor;
 
 import supersnake.attribute.Renderable;
 import supersnake.attribute.Updatable;
-import supersnake.object.attribute.Body;
+import supersnake.game.object.attribute.Body;
 
 public abstract class Actor implements Updatable, Renderable{
   protected Body object;

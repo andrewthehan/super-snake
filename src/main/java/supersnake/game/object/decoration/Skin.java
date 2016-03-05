@@ -1,5 +1,5 @@
 
-package supersnake.object.decoration;
+package supersnake.game.object.decoration;
 
 import supersnake.util.IterativeColor;
 

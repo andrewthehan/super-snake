@@ -1,7 +1,7 @@
 
 package supersnake;
 
-import supersnake.object.decoration.Skin;
+import supersnake.game.object.decoration.Skin;
 import supersnake.util.IterativeColor;
 
 import java.awt.Color;

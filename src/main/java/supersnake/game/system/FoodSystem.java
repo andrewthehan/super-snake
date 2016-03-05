@@ -1,11 +1,11 @@
 
-package supersnake.system;
+package supersnake.game.system;
 
 import supersnake.attribute.Renderable;
 import supersnake.attribute.Updatable;
 import supersnake.Constants;
-import supersnake.object.Food;
-import supersnake.object.Map;
+import supersnake.game.map.Bounds;
+import supersnake.game.object.Food;
 import supersnake.util.CellBlock;
 import supersnake.util.Location;
 import supersnake.util.RNG;
@@ -20,14 +20,14 @@ public class FoodSystem implements Updatable, Renderable{
   private int amount;
   private Set<Food> foods;
 
-  private Map.Bounds bounds;
+  private Bounds bounds;
 
   public FoodSystem(){
     amount = 0;
     foods = new HashSet<>();
   }
 
-  public void setBounds(Map.Bounds bounds){
+  public void setBounds(Bounds bounds){
     this.bounds = bounds;
   }
 

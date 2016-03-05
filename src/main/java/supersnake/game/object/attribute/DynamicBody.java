@@ -1,5 +1,5 @@
 
-package supersnake.object.attribute;
+package supersnake.game.object.attribute;
 
 import supersnake.attribute.Updatable;
 

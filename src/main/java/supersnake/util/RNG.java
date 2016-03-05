@@ -1,7 +1,7 @@
 
 package supersnake.util;
 
-import supersnake.object.Map;
+import supersnake.game.map.Bounds;
 
 import java.util.Random;
 
@@ -20,7 +20,7 @@ public final class RNG{
     return new Location(integer(x1 - x0) + x0, integer(y1 - y0) + y0);
   }
 
-  public static Location location(Map.Bounds bounds){
+  public static Location location(Bounds bounds){
     return location(bounds.getLeft(), bounds.getRight(), bounds.getBottom(), bounds.getTop());
   }
 }

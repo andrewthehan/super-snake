@@ -1,14 +1,15 @@
 
-package supersnake.object;
+package supersnake.game.map;
 
 import supersnake.attribute.Renderable;
 import supersnake.attribute.Updatable;
-import supersnake.actor.Actor;
-import supersnake.actor.Player;
-import supersnake.object.attribute.Body;
-import supersnake.object.exception.AlreadyInitializedException;
-import supersnake.object.Wall;
-import supersnake.system.FoodSystem;
+import supersnake.game.actor.Actor;
+import supersnake.game.actor.Player;
+import supersnake.game.object.attribute.Body;
+import supersnake.game.object.exception.AlreadyInitializedException;
+import supersnake.game.object.Snake;
+import supersnake.game.object.Wall;
+import supersnake.game.system.FoodSystem;
 import supersnake.util.CellBlock;
 import supersnake.util.Location;
 
@@ -83,39 +84,6 @@ public class Map implements Renderable, Updatable{
     foodSystem.render();
     walls.forEach(Renderable::render);
     actors.forEach(Renderable::render);
-  }
-
-  public static class Bounds{
-    private int left, right, bottom, top;
-
-    public Bounds(int left, int right, int bottom, int top){
-      this.left = left;
-      this.right = right;
-      this.bottom = bottom;
-      this.top = top;
-    }
-
-    public int getLeft(){
-      return left;
-    }
-
-    public int getRight(){
-      return right;
-    }
-
-    public int getBottom(){
-      return bottom;
-    }
-
-    public int getTop(){
-      return top;
-    }
-
-    public boolean contains(CellBlock cell){
-      int x = cell.getX();
-      int y = cell.getY();
-      return left <= x && x <= right && bottom <= y && y <= top;
-    }
   }
 
   public static MapBuilder builder(){

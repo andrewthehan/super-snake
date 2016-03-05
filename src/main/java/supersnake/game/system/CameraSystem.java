@@ -1,7 +1,7 @@
 
-package supersnake.system;
+package supersnake.game.system;
 
-import supersnake.object.attribute.Body;
+import supersnake.game.object.attribute.Body;
 import supersnake.util.CellBlock;
 import supersnake.Constants;
 

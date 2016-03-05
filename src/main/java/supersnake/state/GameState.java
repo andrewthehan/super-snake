@@ -2,15 +2,15 @@
 package supersnake.state;
 
 import supersnake.Constants;
-import supersnake.actor.Player;
-import supersnake.actor.EnemySnake;
+import supersnake.game.actor.Player;
+import supersnake.game.actor.EnemySnake;
 import supersnake.input.Key;
 import supersnake.input.KeyManager;
-import supersnake.object.decoration.Skin;
-import supersnake.object.Map;
-import supersnake.object.Wall;
-import supersnake.system.CameraSystem;
-import supersnake.system.CollisionSystem;
+import supersnake.game.map.Map;
+import supersnake.game.object.decoration.Skin;
+import supersnake.game.object.Wall;
+import supersnake.game.system.CameraSystem;
+import supersnake.game.system.CollisionSystem;
 import supersnake.util.CellBlock;
 import supersnake.util.Direction;
 
@@ -40,7 +40,7 @@ public class GameState extends AbstractState{
 
     map.load(player);
 
-    CameraSystem.addTargets(map.getActors().stream().map(supersnake.actor.Actor::getObject).collect(java.util.stream.Collectors.toSet()));
+    CameraSystem.addTargets(map.getActors().stream().map(supersnake.game.actor.Actor::getObject).collect(java.util.stream.Collectors.toSet()));
   }
 
   @Override

@@ -1,8 +1,8 @@
 
-package supersnake.actor;
+package supersnake.game.actor;
 
-import supersnake.object.attribute.Body;
-import supersnake.object.Snake;
+import supersnake.game.object.attribute.Body;
+import supersnake.game.object.Snake;
 import supersnake.util.CellBlock;
 import supersnake.util.Direction;
 import supersnake.util.RNG;
