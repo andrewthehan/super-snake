@@ -1,8 +1,9 @@
 
 package supersnake.graphic.ui;
 
-import supersnake.Assets;
 import supersnake.attribute.Renderable;
+import supersnake.util.Location;
+import supersnake.Assets;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -13,6 +14,12 @@ public abstract class Component implements Renderable{
 
   public Component(int x, int y, int width, int height, Assets.Image image){
     setLocation(x, y);
+    setSize(width, height);
+    setImage(image);
+  }
+
+  public Component(Location location, int width, int height, Assets.Image image){
+    setLocation(location);
     setSize(width, height);
     setImage(image);
   }
@@ -81,6 +88,10 @@ public abstract class Component implements Renderable{
   public void setLocation(int x, int y){
     this.x = x;
     this.y = y;
+  }
+
+  public void setLocation(Location location){
+    setLocation(location.getX(), location.getY());
   }
 
   public void setSize(int width, int height){

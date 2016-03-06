@@ -30,6 +30,7 @@ public class GameState extends AbstractState{
       .setBounds(0, 40, 0, 40)
       .setSpawnLocation(25, 25)
       .setFoodAmount(3)
+      .setItemAmount(5)
       .add(player)
       .add(new EnemySnake(player.getObject(), 15, 10, 20))
       .add(new Wall(20, 23, 0, 10))
