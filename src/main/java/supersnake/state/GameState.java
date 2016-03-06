@@ -55,19 +55,22 @@ public class GameState extends AbstractState{
 
   @Override
   public void update(double timeElapsed){
-    map.update(timeElapsed);
-    collisionSystem.update(timeElapsed);
-
-    CameraSystem.update(timeElapsed);
-
     if(KeyManager.isReleased(Key.P)){
       StateManager.push(new PauseState());
+      return;
     }
+
+    collisionSystem.update(timeElapsed);
+    map.update(timeElapsed);
+
+    CameraSystem.update(timeElapsed);
   }
 
   @Override
   public void render(){
-    map.render();
     collisionSystem.render();
+    map.render();
+
+    CameraSystem.render();
   }
 }

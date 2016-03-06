@@ -5,6 +5,7 @@ import supersnake.graphic.CellBlockRenderer;
 import supersnake.game.object.attribute.Body;
 import supersnake.game.object.attribute.DynamicBody;
 import supersnake.game.object.attribute.Skinnable;
+import supersnake.game.object.attribute.Killable;
 import supersnake.game.object.decoration.Skin;
 import supersnake.game.object.exception.InvalidSkinException;
 import supersnake.util.CellBlock;
@@ -197,7 +198,10 @@ public class Snake implements DynamicBody, Skinnable{
 
   @Override
   public void checkCollision(Body collided){
-    if(collided instanceof Snake && (Snake) collided == this){
+    if(isKilled()){
+      return;
+    }
+    else if(collided instanceof Snake && (Snake) collided == this){
       CellBlock head = getHead();
       for(CellBlock cb : getBody()){
         if(head.intersects(cb) && head != cb){

@@ -20,6 +20,9 @@ public class EnemySnake extends Enemy{
   }
 
   public void chase(){
+    if(target.isKilled()){
+      return;
+    }
     CellBlock targetLoc = target.getBody().iterator().next();
     CellBlock curLoc = snake.getHead();
     Direction nextDirection = snake.getDirection();

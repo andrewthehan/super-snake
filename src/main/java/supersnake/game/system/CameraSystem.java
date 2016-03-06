@@ -33,7 +33,21 @@ public class CameraSystem{
     bodies.forEach(CameraSystem::addTarget);
   }
 
+  public static void removeTarget(Body target){
+    if(targets.contains(target)){
+      targets.remove(target);
+    }
+  }
+
+  public static void removeTargets(Collection<Body> bodies){
+    bodies.forEach(CameraSystem::removeTarget);
+  }
+
   public static void update(double timeElapsed){
+    if(targets.isEmpty()){
+      return;
+    }
+
     // center position
     Set<Integer> xSet = targets.stream().mapToInt(b -> b.getBody().iterator().next().getX() * Constants.CELL_BLOCK_SIZE).boxed().collect(Collectors.toSet());
     Set<Integer> ySet = targets.stream().mapToInt(b -> b.getBody().iterator().next().getY() * Constants.CELL_BLOCK_SIZE).boxed().collect(Collectors.toSet());
@@ -61,7 +75,9 @@ public class CameraSystem{
       height += (desiredHeight - height) * timeElapsed;
       width = (int) (height * WIDTH_TO_HEIGHT_RATIO);
     }
+  }
 
+  public static void render(){
     glLoadIdentity();
     glOrtho(centerX - width / 2, centerX + width / 2, centerY - height / 2, centerY + height / 2, -1, 1);
   }

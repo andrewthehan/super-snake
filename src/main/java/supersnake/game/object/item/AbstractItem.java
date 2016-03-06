@@ -23,8 +23,8 @@ public abstract class AbstractItem extends Component implements StaticBody, Upda
   protected boolean isDone;
 
   public AbstractItem(Location location, Assets.Image image, double duration){
-    super(location, Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, image);
-    body = new CellBlock(location.getX() / Constants.CELL_BLOCK_SIZE, location.getY() / Constants.CELL_BLOCK_SIZE);
+    super(location.getX() * Constants.CELL_BLOCK_SIZE, location.getY() * Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, image);
+    body = new CellBlock(location);
     uController = new UpdateController(duration);
 
     obtainedBy = null;
@@ -39,7 +39,8 @@ public abstract class AbstractItem extends Component implements StaticBody, Upda
     return obtainedBy != null;
   }
 
-  public boolean isDone(){
+  @Override
+  public boolean isKilled(){
     return isDone;
   }
 

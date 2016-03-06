@@ -7,7 +7,7 @@ import supersnake.util.Location;
 
 import java.util.Collection;
 
-public interface Body extends Renderable{
+public interface Body extends Renderable, Killable{
   public Collection<CellBlock> getBody();
   public void collide(Body collided, Location location);
   public default void checkCollision(Body collided){
@@ -20,5 +20,10 @@ public interface Body extends Renderable{
         }
       }
     }
+  }
+
+  @Override
+  public default boolean isKilled(){
+    return getBody().isEmpty();
   }
 }

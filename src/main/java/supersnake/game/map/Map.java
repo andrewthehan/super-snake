@@ -9,6 +9,7 @@ import supersnake.game.object.attribute.Body;
 import supersnake.game.object.exception.AlreadyInitializedException;
 import supersnake.game.object.Snake;
 import supersnake.game.object.Wall;
+import supersnake.game.system.CameraSystem;
 import supersnake.game.system.FoodSystem;
 import supersnake.game.system.ItemSystem;
 import supersnake.util.CellBlock;
@@ -104,6 +105,12 @@ public class Map implements Renderable, Updatable{
   public void update(double timeElapsed){
     // TODO: testing purposes; remove later
     if(supersnake.input.KeyManager.isHeld(supersnake.input.Key.LEFT_CTRL)) return;
+
+    Set<Actor> toRemove = actors.stream().filter(a -> a.isKilled()).collect(Collectors.toSet());
+    if(!toRemove.isEmpty()){
+      toRemove.forEach(this::remove);
+      CameraSystem.removeTargets(toRemove.stream().map(a -> a.getObject()).collect(Collectors.toSet()));
+    }
 
     foodSystem.update(timeElapsed);
     itemSystem.update(timeElapsed);

@@ -48,7 +48,6 @@ public class ItemSystem implements Updatable, Renderable{
     int difference = amount - this.amount;
     if(difference > 0){
       for(int i = 0; i < difference; ++i){
-        Location spawn = RNG.location(bounds);
         items.add(newItem());
       }
     }
@@ -62,14 +61,14 @@ public class ItemSystem implements Updatable, Renderable{
 
   private AbstractItem newItem(){
     Location spawn = RNG.location(bounds);
-    return new FreezeItem(new Location(spawn.getX() * Constants.CELL_BLOCK_SIZE, spawn.getY() * Constants.CELL_BLOCK_SIZE));
+    return new FreezeItem(new Location(spawn.getX(), spawn.getY()));
   }
 
   @Override
   public void update(double timeElapsed){
     items.stream().filter(AbstractItem::isObtained).forEach(i -> i.apply(map));
     items.forEach(i -> i.update(timeElapsed));
-    Set<AbstractItem> toRemove = items.stream().filter(AbstractItem::isDone).collect(Collectors.toSet());
+    Set<AbstractItem> toRemove = items.stream().filter(AbstractItem::isKilled).collect(Collectors.toSet());
     toRemove.forEach(i -> {
       items.remove(i);
       items.add(newItem());
