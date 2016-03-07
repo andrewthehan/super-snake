@@ -4,7 +4,7 @@ package supersnake.game.object.item;
 import supersnake.attribute.Updatable;
 import supersnake.game.map.Map;
 import supersnake.game.object.attribute.Body;
-import supersnake.game.object.attribute.StaticBody;
+import supersnake.game.object.StaticBody;
 import supersnake.graphic.ui.Component;
 import supersnake.util.CellBlock;
 import supersnake.util.Location;
@@ -15,19 +15,22 @@ import supersnake.Constants;
 import java.util.Collection;
 import java.util.HashSet;
 
-public abstract class AbstractItem extends Component implements StaticBody, Updatable{
+public abstract class AbstractItem extends StaticBody implements Updatable{
+  private Component image;
   private CellBlock body;
   private UpdateController uController;
 
   protected Body obtainedBy;
+  protected boolean isStarted;
   protected boolean isDone;
 
   public AbstractItem(Location location, Assets.Image image, double duration){
-    super(location.getX() * Constants.CELL_BLOCK_SIZE, location.getY() * Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, image);
+    this.image = new Component(location.getX() * Constants.CELL_BLOCK_SIZE, location.getY() * Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, image);
     body = new CellBlock(location);
     uController = new UpdateController(duration);
 
     obtainedBy = null;
+    isStarted = false;
     isDone = false;
   }
 
@@ -58,7 +61,7 @@ public abstract class AbstractItem extends Component implements StaticBody, Upda
 
   @Override
   public void update(double timeElapsed){
-    if(isObtained()){
+    if(isStarted){
       if(uController.shouldUpdate(timeElapsed)){
         stop();
         isDone = true;
@@ -69,7 +72,7 @@ public abstract class AbstractItem extends Component implements StaticBody, Upda
   @Override
   public void render(){
     if(!isObtained()){
-      super.render();
+      image.render();
     }
   }
 }

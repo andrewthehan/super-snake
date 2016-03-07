@@ -66,14 +66,13 @@ public class ItemSystem implements Updatable, Renderable{
 
   @Override
   public void update(double timeElapsed){
-    items.stream().filter(AbstractItem::isObtained).forEach(i -> i.apply(map));
     items.forEach(i -> i.update(timeElapsed));
-    Set<AbstractItem> toRemove = items.stream().filter(AbstractItem::isKilled).collect(Collectors.toSet());
+    items.stream().filter(AbstractItem::isObtained).forEach(i -> i.apply(map));
+    Set<AbstractItem> toRemove = items.stream().filter(AbstractItem::isObtained).collect(Collectors.toSet());
     toRemove.forEach(i -> {
       items.remove(i);
       items.add(newItem());
     });
-
   }
 
   @Override

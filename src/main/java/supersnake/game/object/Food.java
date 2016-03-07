@@ -4,7 +4,7 @@ package supersnake.game.object;
 import supersnake.graphic.CellBlockRenderer;
 import supersnake.game.object.attribute.Body;
 import supersnake.game.object.attribute.Skinnable;
-import supersnake.game.object.attribute.StaticBody;
+import supersnake.game.object.StaticBody;
 import supersnake.game.object.decoration.Skin;
 import supersnake.util.CellBlock;
 import supersnake.util.Location;
@@ -13,7 +13,7 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class Food implements StaticBody, Skinnable{
+public class Food extends StaticBody implements Skinnable{
   private CellBlock body;
   private boolean isConsumed;
   private Skin skin;

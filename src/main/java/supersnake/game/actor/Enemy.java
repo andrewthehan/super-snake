@@ -2,11 +2,12 @@
 package supersnake.game.actor;
 
 import supersnake.game.object.attribute.Body;
+import supersnake.game.object.DynamicBody;
 
 public abstract class Enemy extends Actor{
   protected Body target;
 
-  public Enemy(Body object, Body target){
+  public Enemy(DynamicBody object, Body target){
     super(object);
     this.target = target;
   }

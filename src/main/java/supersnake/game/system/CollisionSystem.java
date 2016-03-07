@@ -5,8 +5,8 @@ import supersnake.attribute.Renderable;
 import supersnake.attribute.Updatable;
 import supersnake.game.map.Map;
 import supersnake.game.object.attribute.Body;
-import supersnake.game.object.attribute.DynamicBody;
-import supersnake.game.object.attribute.StaticBody;
+import supersnake.game.object.DynamicBody;
+import supersnake.game.object.StaticBody;
 
 import java.util.stream.Collectors;
 import java.util.Collection;

@@ -7,7 +7,7 @@ import supersnake.Assets;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public abstract class Component implements Renderable{
+public class Component implements Renderable{
   private int x, y;
   private int width, height;
   private Assets.Image image;

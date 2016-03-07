@@ -10,19 +10,19 @@ import supersnake.util.Time;
 import supersnake.Skins;
 
 public class EnemySnake extends Enemy{
-  private Snake snake;
-
   public EnemySnake(Body target, int x, int y, int length){
     super(new Snake(x, y, length), target);
-    snake = (Snake) object;
+    Snake snake = (Snake) object;
+    snake.setActor(this);
     snake.setSkin(Skins.SNAKE_ENEMY);
     snake.setUpdateDelay(Time.SECOND / 7.0);
   }
 
-  public void chase(){
+  private void chase(){
     if(target.isKilled()){
       return;
     }
+    Snake snake = (Snake) object;
     CellBlock targetLoc = target.getBody().iterator().next();
     CellBlock curLoc = snake.getHead();
     Direction nextDirection = snake.getDirection();
@@ -51,20 +51,15 @@ public class EnemySnake extends Enemy{
       }
     }
 
-    snake.setNextDirection(nextDirection);
+    snake.setDirection(nextDirection);
   }
 
   @Override
   public void update(double timeElapsed){
-    // chance of (not) changing direction
+    // chance of changing direction
     if(RNG.integer(10) == 0){
       chase();
     }
-    snake.update(timeElapsed);
-  }
-
-  @Override
-  public void render(){
-    snake.render();
+    super.update(timeElapsed);
   }
 }

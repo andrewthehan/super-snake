@@ -3,7 +3,7 @@ package supersnake.game.object;
 
 import supersnake.graphic.CellBlockRenderer;
 import supersnake.game.object.attribute.Body;
-import supersnake.game.object.attribute.DynamicBody;
+import supersnake.game.object.DynamicBody;
 import supersnake.game.object.attribute.Skinnable;
 import supersnake.game.object.attribute.Killable;
 import supersnake.game.object.decoration.Skin;
@@ -18,10 +18,10 @@ import java.util.Collection;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class Snake implements DynamicBody, Skinnable{
+public class Snake extends DynamicBody implements Skinnable{
   private UpdateController uController;
   private Deque<CellBlock> body;
-  private Direction direction, nextDirection;
+  private Direction nextDirection;
   private Skin.SnakeSkin skin;
 
   public Snake(int x, int y, int length){
@@ -32,20 +32,13 @@ public class Snake implements DynamicBody, Skinnable{
     this(new Location(x, y), length, direction);
   }
 
-  public Snake(Location initialLocation, int length){
-    this(initialLocation, length, Direction.UP);
-  }
-
   public Snake(Location initialLocation, int length, Direction direction){
+    super(direction);
     uController = new UpdateController();
     body = new ArrayDeque<>();
     init(initialLocation, length, direction);
 
     skin = Skin.DEFAULT_SNAKE;
-  }
-
-  private void init(int x, int y, int length, Direction direction){
-    init(new Location(x, y), length, direction);
   }
 
   private void init(Location initialLocation, int length, Direction direction){
@@ -63,11 +56,8 @@ public class Snake implements DynamicBody, Skinnable{
     uController.setUpdateDelay(updateDelay);
   }
 
-  public Direction getDirection(){
-    return direction;
-  }
-
-  public void setNextDirection(Direction direction){
+  @Override
+  public void setDirection(Direction direction){
     nextDirection = direction;
   }
 
@@ -165,6 +155,7 @@ public class Snake implements DynamicBody, Skinnable{
 
   @Override
   public void collide(Body collided, Location location){
+    super.collide(collided, location);
     if(collided instanceof Food){
       increment();
     }
@@ -211,7 +202,7 @@ public class Snake implements DynamicBody, Skinnable{
       }
     }
     else{
-      DynamicBody.super.checkCollision(collided);
+      super.checkCollision(collided);
     }
   }
 

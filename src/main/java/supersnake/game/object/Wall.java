@@ -4,7 +4,7 @@ package supersnake.game.object;
 import supersnake.graphic.CellBlockRenderer;
 import supersnake.game.object.attribute.Body;
 import supersnake.game.object.attribute.Skinnable;
-import supersnake.game.object.attribute.StaticBody;
+import supersnake.game.object.StaticBody;
 import supersnake.game.object.decoration.Skin;
 import supersnake.util.CellBlock;
 import supersnake.util.Location;
@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Wall implements StaticBody, Skinnable{
+public class Wall extends StaticBody implements Skinnable{
   private Set<CellBlock> body;
   private Skin skin;
 

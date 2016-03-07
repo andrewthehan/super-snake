@@ -31,6 +31,7 @@ public class FreezeItem extends AbstractItem{
     this.map = map;
     toFreeze.addAll(map.getActors().stream().filter(a -> a.getObject() != obtainedBy).collect(Collectors.toSet()));
     toFreeze.forEach(map::remove);
+    isStarted = true;
   }
 
   @Override
