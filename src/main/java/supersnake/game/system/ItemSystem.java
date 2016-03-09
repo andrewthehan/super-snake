@@ -11,25 +11,31 @@ import supersnake.game.object.item.FreezeItem;
 import supersnake.util.CellBlock;
 import supersnake.util.Location;
 import supersnake.util.RNG;
+import supersnake.util.Time;
+import supersnake.util.UpdateController;
 
 import static org.lwjgl.opengl.GL11.*;
 
 import java.util.stream.Collectors;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 public class ItemSystem implements Updatable, Renderable{
+  private UpdateController uController;
   private int amount;
-  private Set<AbstractItem> items;
+  private Queue<AbstractItem> items;
 
   private Bounds bounds;
 
   private Map map;
 
   public ItemSystem(){
+    uController = new UpdateController(Time.SECOND * 5);
     amount = 0;
-    items = new HashSet<>();
+    items = new LinkedList<>();
   }
 
   public void setMap(Map map){
@@ -46,12 +52,7 @@ public class ItemSystem implements Updatable, Renderable{
 
   public void setAmount(int amount){
     int difference = amount - this.amount;
-    if(difference > 0){
-      for(int i = 0; i < difference; ++i){
-        items.add(newItem());
-      }
-    }
-    else if(difference < 0){
+    if(difference < 0){
       for(int i = 0; i > difference; --i){
         items.remove(items.iterator().next());
       }
@@ -61,18 +62,35 @@ public class ItemSystem implements Updatable, Renderable{
 
   private AbstractItem newItem(){
     Location spawn = RNG.location(bounds);
-    return new FreezeItem(new Location(spawn.getX(), spawn.getY()));
+    AbstractItem toReturn = null;
+    switch(RNG.integer(1)){
+      case 0: toReturn = new FreezeItem(new Location(spawn.getX(), spawn.getY()));
+    }
+    return toReturn;
+  }
+
+  private void addItem(){
+    if(items.size() == amount){
+      removeItem();
+    }
+    items.add(newItem());
+  }
+
+  private void removeItem(){
+    if(!items.isEmpty()){
+      items.remove();
+    }
   }
 
   @Override
   public void update(double timeElapsed){
+    if(uController.shouldUpdate(timeElapsed)){
+      addItem();
+    }
     items.forEach(i -> i.update(timeElapsed));
     items.stream().filter(AbstractItem::isObtained).forEach(i -> i.apply(map));
     Set<AbstractItem> toRemove = items.stream().filter(AbstractItem::isObtained).collect(Collectors.toSet());
-    toRemove.forEach(i -> {
-      items.remove(i);
-      items.add(newItem());
-    });
+    toRemove.forEach(items::remove);
   }
 
   @Override
