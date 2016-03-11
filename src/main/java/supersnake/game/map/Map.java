@@ -6,6 +6,7 @@ import supersnake.attribute.Updatable;
 import supersnake.game.actor.Actor;
 import supersnake.game.actor.Player;
 import supersnake.game.object.attribute.Body;
+import supersnake.game.object.attribute.Killable;
 import supersnake.game.object.exception.AlreadyInitializedException;
 import supersnake.game.object.Snake;
 import supersnake.game.object.Wall;
@@ -106,15 +107,23 @@ public class Map implements Renderable, Updatable{
     // TODO: testing purposes; remove later
     if(supersnake.input.KeyManager.isHeld(supersnake.input.Key.LEFT_CTRL)) return;
 
-    Set<Actor> toRemove = actors.stream().filter(a -> a.isKilled()).collect(Collectors.toSet());
-    if(!toRemove.isEmpty()){
-      toRemove.forEach(this::remove);
-      CameraSystem.removeTargets(toRemove.stream().map(a -> a.getObject()).collect(Collectors.toSet()));
-    }
-
     foodSystem.update(timeElapsed);
     itemSystem.update(timeElapsed);
-    actors.forEach(e -> e.update(timeElapsed));
+
+    Set<Actor> toRemove = actors.stream().filter(Killable::isDead).collect(Collectors.toSet());
+    if(!toRemove.isEmpty()){
+      toRemove.forEach(this::remove);
+      CameraSystem.removeTargets(toRemove.stream().map(Actor::getObject).collect(Collectors.toSet()));
+    }
+
+    Set<Actor> updated = new HashSet<>();
+    Actor cur = actors.stream().filter(a -> !updated.contains(a)).findFirst().orElse(null);
+    while(cur != null){
+      cur.update(timeElapsed);
+      updated.add(cur);
+      cur = actors.stream().filter(a -> !updated.contains(a)).findFirst().orElse(null);
+    }
+    // actors.forEach(e -> e.update(timeElapsed));
   }
 
   @Override

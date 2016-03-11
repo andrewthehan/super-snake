@@ -13,7 +13,6 @@ import java.util.Set;
 
 public class FreezeItem extends AbstractItem{
   private Set<Actor> toFreeze;
-  private Map map;
 
   public FreezeItem(Location location){
     super(location, Assets.ITEM_FREEZE, 5 * Time.SECOND);
@@ -21,17 +20,15 @@ public class FreezeItem extends AbstractItem{
   }
 
   @Override
-  public void stop(){
-    toFreeze.forEach(map::add);
-    toFreeze.clear();
+  protected void onActivate(){
+    toFreeze.addAll(map.getActors().stream().filter(a -> a.getObject() != obtainedBy).collect(Collectors.toSet()));
+    toFreeze.forEach(map::remove);
   }
 
   @Override
-  public void apply(Map map){
-    this.map = map;
-    toFreeze.addAll(map.getActors().stream().filter(a -> a.getObject() != obtainedBy).collect(Collectors.toSet()));
-    toFreeze.forEach(map::remove);
-    isStarted = true;
+  protected void onStop(){
+    toFreeze.forEach(map::add);
+    toFreeze.clear();
   }
 
   @Override

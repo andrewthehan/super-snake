@@ -29,6 +29,7 @@ public final class Key{
   public static final int X = i++;
   public static final int Y = i++;
   public static final int Z = i++;
+  public static final int SPACE = i++;
   public static final int ESCAPE = i++;
   public static final int UP = i++;
   public static final int RIGHT = i++;

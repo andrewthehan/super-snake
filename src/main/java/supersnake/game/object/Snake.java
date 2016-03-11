@@ -189,7 +189,7 @@ public class Snake extends DynamicBody implements Skinnable{
 
   @Override
   public void checkCollision(Body collided){
-    if(isKilled()){
+    if(isDead()){
       return;
     }
     else if(collided instanceof Snake && (Snake) collided == this){

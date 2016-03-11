@@ -20,9 +20,11 @@ public abstract class AbstractItem extends StaticBody implements Updatable{
   private CellBlock body;
   private UpdateController uController;
 
+  private boolean isStarted;
+  private boolean isDone;
+
+  protected Map map;
   protected Body obtainedBy;
-  protected boolean isStarted;
-  protected boolean isDone;
 
   public AbstractItem(Location location, Assets.Image image, double duration){
     this.image = new Component(location.getX() * Constants.CELL_BLOCK_SIZE, location.getY() * Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, image);
@@ -34,16 +36,34 @@ public abstract class AbstractItem extends StaticBody implements Updatable{
     isDone = false;
   }
 
-  public abstract void apply(Map map);
+  protected abstract void onActivate();
 
-  public abstract void stop();
+  protected abstract void onStop();
+
+  public void apply(Map map){
+    this.map = map;
+  }
+
+  public void activate(){
+    onActivate();
+    isStarted = true;
+  }
+
+  public void stop(){
+    onStop();
+    isDone = true;
+  }
+
+  public boolean isActivated(){
+    return isStarted && !isDone;
+  }
 
   public boolean isObtained(){
     return obtainedBy != null;
   }
 
   @Override
-  public boolean isKilled(){
+  public boolean isDead(){
     return isDone;
   }
 
@@ -64,7 +84,6 @@ public abstract class AbstractItem extends StaticBody implements Updatable{
     if(isStarted){
       if(uController.shouldUpdate(timeElapsed)){
         stop();
-        isDone = true;
       }
     }
   }

@@ -23,7 +23,7 @@ public interface Body extends Renderable, Killable{
   }
 
   @Override
-  public default boolean isKilled(){
+  public default boolean isDead(){
     return getBody().isEmpty();
   }
 }

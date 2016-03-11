@@ -19,7 +19,7 @@ public class EnemySnake extends Enemy{
   }
 
   private void chase(){
-    if(target.isKilled()){
+    if(target.isDead()){
       return;
     }
     Snake snake = (Snake) object;

@@ -23,6 +23,7 @@ public class Player extends Actor{
 
   @Override
   public void update(double timeElapsed){
+    System.err.println(items.size());
     Snake snake = (Snake) object;
     if(KeyManager.isPressed(Key.UP) && snake.getDirection() != Direction.DOWN){
       snake.setDirection(Direction.UP);
@@ -35,6 +36,9 @@ public class Player extends Actor{
     }
     else if(KeyManager.isPressed(Key.LEFT) && snake.getDirection() != Direction.RIGHT){
       snake.setDirection(Direction.LEFT);
+    }
+    if(KeyManager.isPressed(Key.SPACE)){
+      activateItem();
     }
     super.update(timeElapsed);
   }
