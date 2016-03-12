@@ -1,4 +1,4 @@
 
-package supersnake.game.object.exception;
+package supersnake.game.exception;
 
 public class InvalidSkinException extends Exception{}

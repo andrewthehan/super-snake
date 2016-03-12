@@ -2,12 +2,12 @@
 package supersnake.game.object;
 
 import supersnake.graphic.CellBlockRenderer;
+import supersnake.game.exception.InvalidSkinException;
 import supersnake.game.object.attribute.Body;
 import supersnake.game.object.DynamicBody;
 import supersnake.game.object.attribute.Skinnable;
 import supersnake.game.object.attribute.Killable;
 import supersnake.game.object.decoration.Skin;
-import supersnake.game.object.exception.InvalidSkinException;
 import supersnake.util.CellBlock;
 import supersnake.util.Direction;
 import supersnake.util.Location;
