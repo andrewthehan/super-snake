@@ -5,7 +5,7 @@ import supersnake.attribute.Updatable;
 import supersnake.game.map.Map;
 import supersnake.game.object.attribute.Body;
 import supersnake.game.object.StaticBody;
-import supersnake.graphic.ui.Component;
+import supersnake.graphic.ui.Image;
 import supersnake.util.CellBlock;
 import supersnake.util.Location;
 import supersnake.util.UpdateController;
@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public abstract class AbstractItem extends StaticBody implements Updatable{
-  private Component image;
+  private Image image;
   private CellBlock body;
   private UpdateController uController;
 
@@ -27,7 +27,7 @@ public abstract class AbstractItem extends StaticBody implements Updatable{
   protected Body obtainedBy;
 
   public AbstractItem(Location location, Assets.Image image, double duration){
-    this.image = new Component(location.getX() * Constants.CELL_BLOCK_SIZE, location.getY() * Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, image);
+    this.image = new Image(location.getX() * Constants.CELL_BLOCK_SIZE, location.getY() * Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, Constants.CELL_BLOCK_SIZE, image);
     body = new CellBlock(location);
     uController = new UpdateController(duration);
 

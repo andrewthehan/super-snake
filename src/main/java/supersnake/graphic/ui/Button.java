@@ -9,7 +9,10 @@ import supersnake.util.function.Actionable;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class Button extends Component implements Updatable{
+public class Button extends Image implements Updatable{
+  private enum ButtonState{
+    IDLE, CLICKED, HOVERED
+  }
   private ButtonState state;
   private Actionable action;
   private boolean pressedOutside;
