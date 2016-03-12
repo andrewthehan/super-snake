@@ -15,7 +15,7 @@ public class FreezeItem extends AbstractItem{
   private Set<Actor> toFreeze;
 
   public FreezeItem(Location location){
-    super(location, Assets.ITEM_FREEZE, 5 * Time.SECOND);
+    super(location, Assets.ITEM_FREEZE, 2 * Time.SECOND);
     toFreeze = new HashSet<>();
   }
 

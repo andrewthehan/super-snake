@@ -8,6 +8,7 @@ import supersnake.game.map.Bounds;
 import supersnake.game.map.Map;
 import supersnake.game.object.item.AbstractItem;
 import supersnake.game.object.item.FreezeItem;
+import supersnake.game.object.item.MagnetItem;
 import supersnake.util.CellBlock;
 import supersnake.util.Location;
 import supersnake.util.RNG;
@@ -62,11 +63,11 @@ public class ItemSystem implements Updatable, Renderable{
 
   private AbstractItem newItem(){
     Location spawn = RNG.location(bounds);
-    AbstractItem toReturn = null;
-    switch(RNG.integer(1)){
-      case 0: toReturn = new FreezeItem(new Location(spawn.getX(), spawn.getY()));
+    switch(RNG.integer(2)){
+      case 0: return new FreezeItem(new Location(spawn.getX(), spawn.getY()));
+      case 1: return new MagnetItem(new Location(spawn.getX(), spawn.getY()));
+      default: return null;
     }
-    return toReturn;
   }
 
   private void addItem(){

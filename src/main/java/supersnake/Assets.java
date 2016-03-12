@@ -17,6 +17,7 @@ public class Assets{
 
   public static final String ITEMS = RESOURCES + "items/";
   public static final Image ITEM_FREEZE = new Image(ITEMS + "item_freeze.png");
+  public static final Image ITEM_MAGNET = new Image(ITEMS + "item_magnet.png");
 
   public static class Image{
     private static final IntBuffer W = BufferUtils.createIntBuffer(1);
