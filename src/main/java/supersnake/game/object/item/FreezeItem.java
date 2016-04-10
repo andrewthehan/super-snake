@@ -21,13 +21,15 @@ public class FreezeItem extends AbstractItem{
 
   @Override
   protected void onActivate(){
-    toFreeze.addAll(map.getActors().stream().filter(a -> a.getObject() != obtainedBy).collect(Collectors.toSet()));
-    toFreeze.forEach(map::remove);
+    toFreeze.addAll(map.getPlayers().stream().filter(a -> a.getObject() != obtainedBy).collect(Collectors.toSet()));
+		// TODO: BROKEN
+		//toFreeze.addAll(map.getEnemySystem().getEnemies().stream().filter(a -> a.getObject() != obtainedBy).collect(Collectors.toSet()));
+    //toFreeze.forEach(map::remove);
   }
 
   @Override
   protected void onStop(){
-    toFreeze.forEach(map::add);
+    //toFreeze.forEach(map::add);
     toFreeze.clear();
   }
 

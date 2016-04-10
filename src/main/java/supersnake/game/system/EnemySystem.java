@@ -4,11 +4,12 @@ package supersnake.game.system;
 import supersnake.attribute.Renderable;
 import supersnake.attribute.Updatable;
 import supersnake.Constants;
+import supersnake.game.actor.Actor;
+import supersnake.game.actor.Enemy;
+import supersnake.game.actor.EnemySnake;
 import supersnake.game.map.Bounds;
 import supersnake.game.map.Map;
-import supersnake.game.object.item.AbstractItem;
-import supersnake.game.object.item.FreezeItem;
-import supersnake.game.object.item.MagnetItem;
+import supersnake.game.object.attribute.Killable;
 import supersnake.util.CellBlock;
 import supersnake.util.Location;
 import supersnake.util.RNG;
@@ -24,19 +25,19 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
-public class ItemSystem implements Updatable, Renderable{
+public class EnemySystem implements Updatable, Renderable{
   private UpdateController uController;
   private int amount;
-  private Queue<AbstractItem> items;
+  private Queue<Enemy> enemies;
 
   private Bounds bounds;
 
   private Map map;
 
-  public ItemSystem(){
+  public EnemySystem(){
     uController = new UpdateController(Time.SECOND * 5);
     amount = 0;
-    items = new LinkedList<>();
+    enemies = new LinkedList<>();
   }
 
   public void setMap(Map map){
@@ -47,55 +48,51 @@ public class ItemSystem implements Updatable, Renderable{
     this.bounds = bounds;
   }
 
-  public Collection<AbstractItem> getItems(){
-    return items;
+  public Collection<Enemy> getEnemies(){
+    return enemies;
   }
 
   public void setAmount(int amount){
     int difference = amount - this.amount;
     if(difference < 0){
       for(int i = 0; i > difference; --i){
-        items.remove(items.iterator().next());
+        enemies.remove(enemies.iterator().next());
       }
     }
     this.amount = amount;
   }
 
-  private AbstractItem newItem(){
+  private Enemy newEnemy(){
     Location spawn = RNG.location(bounds);
-    switch(RNG.integer(2)){
-      case 0: return new FreezeItem(new Location(spawn.getX(), spawn.getY()));
-      case 1: return new MagnetItem(new Location(spawn.getX(), spawn.getY()));
+    switch(RNG.integer(1)){
+      case 0: return new EnemySnake(map.getPlayers().iterator().next().getObject(), new Location(spawn.getX(), spawn.getY()), 5);
       default: return null;
     }
   }
 
-  private void addItem(){
-    if(items.size() == amount){
-      removeItem();
-    }
-    items.add(newItem());
-  }
-
-  private void removeItem(){
-    if(!items.isEmpty()){
-      items.remove();
+  private void addEnemy(){
+    if(enemies.size() != amount){
+			Enemy enemy = newEnemy();
+    	enemies.add(enemy);
+	    CameraSystem.addTarget(enemy.getObject());
     }
   }
 
   @Override
   public void update(double timeElapsed){
     if(uController.shouldUpdate(timeElapsed)){
-      addItem();
+      addEnemy();
     }
-    items.forEach(i -> i.update(timeElapsed));
-    items.stream().filter(AbstractItem::isObtained).forEach(i -> i.apply(map));
-    Set<AbstractItem> toRemove = items.stream().filter(AbstractItem::isObtained).collect(Collectors.toSet());
-    toRemove.forEach(items::remove);
+		enemies.forEach(e -> e.update(timeElapsed));
+    Set<Enemy> toRemove = enemies.stream().filter(Killable::isDead).collect(Collectors.toSet());
+    if(!toRemove.isEmpty()){
+      toRemove.forEach(enemies::remove);
+      CameraSystem.removeTargets(toRemove.stream().map(Actor::getObject).collect(Collectors.toSet()));
+    }
   }
 
   @Override
   public void render(){
-    items.forEach(Renderable::render);
+    enemies.forEach(Renderable::render);
   }
 }

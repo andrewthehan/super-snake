@@ -5,6 +5,7 @@ import supersnake.game.object.attribute.Body;
 import supersnake.game.object.Snake;
 import supersnake.util.CellBlock;
 import supersnake.util.Direction;
+import supersnake.util.Location;
 import supersnake.util.RNG;
 import supersnake.util.Time;
 import supersnake.Skins;
@@ -12,6 +13,14 @@ import supersnake.Skins;
 public class EnemySnake extends Enemy{
   public EnemySnake(Body target, int x, int y, int length){
     super(new Snake(x, y, length), target);
+    Snake snake = (Snake) object;
+    snake.setActor(this);
+    snake.setSkin(Skins.SNAKE_ENEMY);
+    snake.setUpdateDelay(Time.SECOND / 7.0);
+  }
+
+  public EnemySnake(Body target, Location location, int length){
+    super(new Snake(location, length), target);
     Snake snake = (Snake) object;
     snake.setActor(this);
     snake.setSkin(Skins.SNAKE_ENEMY);

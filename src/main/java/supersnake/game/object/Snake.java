@@ -32,6 +32,10 @@ public class Snake extends DynamicBody implements Skinnable{
     this(new Location(x, y), length, direction);
   }
 
+  public Snake(Location initialLocation, int length){
+		this(initialLocation, length, Direction.UP);
+  }
+
   public Snake(Location initialLocation, int length, Direction direction){
     super(direction);
     uController = new UpdateController();
